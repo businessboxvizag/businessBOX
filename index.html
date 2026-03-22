@@ -3,6 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="businessBOX: High-growth agency helping Vizag businesses scale nationally with premium branding, web development, and marketing solutions. Free strategy session available.">
+    <meta name="keywords" content="business growth agency, Vizag marketing, branding services, web development, digital marketing, business expansion, sovereignty ecosystem">
+    <link rel="canonical" href="https://yourwebsite.com/">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourwebsite.com/">
+    <meta property="og:title" content="businessBOX | High-Growth Agency">
+    <meta property="og:description" content="Helping businesses scale from local to national brands using the Sovereignty Ecosystem.">
+    <meta property="og:image" content="https://yourwebsite.com/logo.png">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://yourwebsite.com/">
+    <meta property="twitter:title" content="businessBOX | High-Growth Agency">
+    <meta property="twitter:description" content="Helping businesses scale from local to national brands using the Sovereignty Ecosystem.">
+    <meta property="twitter:image" content="https://yourwebsite.com/logo.png">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <title>businessBOX | High-Growth Agency</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -27,10 +43,17 @@
 </head>
 <body>
 
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-[#00AEEF] text-white px-4 py-2 rounded">Skip to main content</a>
+
     <nav class="fixed top-0 w-full z-[100] glass py-3 px-6">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-2" data-aos="fade-right">
-                <img src="bblogo.png" alt="businessBOX Logo" class="h-20 w-auto logo-glow hover:scale-105 transition duration-300">
+                <img src="bblogo.png" alt="businessBOX Logo" class="h-20 w-auto logo-glow hover:scale-105 transition duration-300" loading="lazy">
+            </div>
+            <div class="lg:hidden">
+                <button id="mobile-menu-btn" class="text-white focus:outline-none" aria-label="Toggle mobile menu">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
             </div>
             <div class="hidden lg:flex space-x-8 text-sm md:text-base font-bold uppercase tracking-widest text-gray-400">
                 <a href="#stats" class="hover:text-blue-400 transition">Experience</a>
@@ -38,18 +61,26 @@
                 <a href="#director" class="hover:text-blue-400 transition">The Vision</a>
                 <a href="#enquiry" class="hover:text-blue-400 transition">Enquire</a>
             </div>
+            <div id="mobile-menu" class="hidden lg:hidden absolute top-full left-0 w-full bg-black/90 glass py-4 px-6">
+                <div class="flex flex-col space-y-4 text-center">
+                    <a href="#stats" class="hover:text-blue-400 transition">Experience</a>
+                    <a href="#services" class="hover:text-blue-400 transition">Services</a>
+                    <a href="#director" class="hover:text-blue-400 transition">The Vision</a>
+                    <a href="#enquiry" class="hover:text-blue-400 transition">Enquire</a>
+                </div>
+            </div>
             <a href="https://wa.me/918688669816" class="bg-[#00AEEF] text-white px-6 py-2 rounded-lg font-bold text-sm btn-glow transition-all">WHATSAPP: 8688669816</a>
         </div>
     </nav>
 
-    <section class="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
+    <section id="main-content" class="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
         <div class="absolute w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[150px] top-[-10%] right-[-10%]"></div>
         <div class="text-center px-6 relative z-10" data-aos="zoom-out" data-aos-duration="1500">
 
     <!-- LOGO ABOVE HEADING -->
     <img src="logo.png"
          alt="businessBOX Logo"
-         class="mx-auto mb-6 h-25 md:h-24 logo-glow">
+         class="mx-auto mb-6 h-25 md:h-24 logo-glow" loading="lazy">
             <h1 class="text-6xl md:text-[90px] font-extrabold mb-6 leading-none tracking-tighter uppercase">
                 Dominating the <br><span class="gradient-text">Vizag's Market</span>
             </h1>
@@ -133,7 +164,7 @@
             <div class="md:w-1/3">
                 <img src="vds.png"
                      alt="David Stanley"
-                     class="w-full h-full object-cover rounded-[40px] border-4 border-[#00AEEF]/30 shadow-2xl hover:scale-105 transition duration-500">
+                     class="w-full h-full object-cover rounded-[40px] border-4 border-[#00AEEF]/30 shadow-2xl hover:scale-105 transition duration-500" loading="lazy">
             </div>
             <div class="md:w-2/3">
                 <i class="fas fa-quote-left text-5xl text-[#00AEEF] mb-8 block"></i>
@@ -148,21 +179,21 @@
     </section>
 
     <section id="enquiry" class="py-22 px-6">
-        <div class="max-w-4xl w-[65%] mx-auto text-center glass p-10 md:p-20 rounded-[50px] border-t-8 border-[#00AEEF]" data-aos="zoom-in">
+        <div class="max-w-4xl w-full md:w-[65%] mx-auto text-center glass p-10 md:p-20 rounded-[50px] border-t-8 border-[#00AEEF]" data-aos="zoom-in">
             <h2 class="text-5xl font-black mb-8">Ready to Scale?</h2>
             <p class="text-gray-400 mb-12">Submit your details below for a <strong>Free Strategy Session</strong> with David.</p>
             <form class="grid md:grid-cols-2 gap-6 text-left">
                 <div class="space-y-2">
                     <label class="text-xs uppercase font-bold text-gray-500">Your Full Name</label>
-                    <input type="text" name="fullName" class="w-full bg-white/5 border border-white/10 p-5 rounded-xl outline-none focus:border-[#00AEEF]">
+                    <input type="text" name="fullName" class="w-full bg-white/5 border border-white/10 p-5 rounded-xl outline-none focus:border-[#00AEEF]" required>
                 </div>
                 <div class="space-y-2">
                     <label class="text-xs uppercase font-bold text-gray-500">Phone Number</label>
-                    <input type="tel" name="phone" class="w-full bg-white/5 border border-white/10 p-5 rounded-xl outline-none focus:border-[#00AEEF]">
+                    <input type="tel" name="phone" class="w-full bg-white/5 border border-white/10 p-5 rounded-xl outline-none focus:border-[#00AEEF]" required>
                 </div>
                 <div class="md:col-span-2 space-y-2">
                     <label class="text-xs uppercase font-bold text-gray-500">Your Business Name</label>
-                    <input type="text" name="businessName" class="w-full bg-white/5 border border-white/10 p-5 rounded-xl outline-none focus:border-[#00AEEF]">
+                    <input type="text" name="businessName" class="w-full bg-white/5 border border-white/10 p-5 rounded-xl outline-none focus:border-[#00AEEF]" required>
                 </div>
                 <div class="md:col-span-2 space-y-2">
                     <label class="text-xs uppercase font-bold text-gray-500">Tell us a bit about your business</label>
@@ -176,19 +207,23 @@
                         <option>Sovereignty (Full Empire) Package</option>
                     </select>
                 </div>
-                <button class="md:col-span-2 bg-[#00AEEF] p-6 rounded-2xl font-black text-xl btn-glow uppercase tracking-widest">Request My Strategy Call</button>
+                <button class="md:col-span-2 bg-[#00AEEF] p-6 rounded-2xl font-black text-xl btn-glow uppercase tracking-widest" aria-label="Submit enquiry form">Request My Strategy Call</button>
             </form>
         </div>
     </section>
 
     <footer class="py-40 text-center text-gray-600">
-        <img src="logo.png" class="h-40 mx-auto mb-6 opacity-30">
+        <img src="logo.png" class="h-40 mx-auto mb-6 opacity-30" loading="lazy">
         <p>&copy; 2026 businessBOX | A Stanley Enterprise Organization</p>
     </footer>
 
     <a href="https://wa.me/918688669816" class="fixed bottom-10 right-10 bg-[#25D366] w-16 h-16 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:scale-110 active:scale-95 transition-all z-[1000]">
         <i class="fab fa-whatsapp"></i>
     </a>
+
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-10 left-10 bg-[#00AEEF] w-16 h-16 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:scale-110 active:scale-95 transition-all z-[1000]" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <script>
         AOS.init({ duration: 1000, once: true });
@@ -231,6 +266,12 @@
         statsObserver.observe(document.querySelector('#stats'));
     </script>
     <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+    <script>
     document.addEventListener('DOMContentLoaded', () => {
       const form = document.querySelector("section#enquiry form");
       const URL = "https://script.google.com/macros/s/AKfycbwVx3MGZ8Ij2Q3c9VJi8OWiEdM0D51t8KAUk5NNWmQ_1NHTFQcnmRGaGgQcFoDvocQi7g/exec";
@@ -260,6 +301,11 @@
           packageInterest: formData.get("packageInterest"),
         };
 
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+
         // Build WhatsApp message
         const message = `*New Enquiry from businessBOX Website*\n\n` +
           `👤 Full Name: ${payload.fullName}\n` +
@@ -277,6 +323,8 @@
 
         alert("Form submitted! WhatsApp opened with your enquiry details. Please send the message to complete submission.");
         form.reset();
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
       });
       });
     </script>
