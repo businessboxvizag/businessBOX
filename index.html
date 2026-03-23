@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <meta name="description" content="businessBOX: High-growth agency helping Vizag businesses scale nationally with premium branding, web development, and marketing solutions. Free strategy session available.">
     <meta name="keywords" content="business growth agency, Vizag marketing, branding services, web development, digital marketing, business expansion, sovereignty ecosystem">
     <link rel="canonical" href="https://yourwebsite.com/">
@@ -37,8 +37,179 @@
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
         .animate-float { animation: float 4s ease-in-out infinite; }
 
+        @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0.3; } }
+        .blink-animation { animation: blink 2s ease-in-out infinite; }
+
+        /* Crazy WhatsApp Button Animations */
+        @keyframes crazyBounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) scale(1); }
+            40% { transform: translateY(-10px) scale(1.1); }
+            60% { transform: translateY(-5px) scale(1.05); }
+        }
+        
+        @keyframes crazyGlow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(37, 211, 102, 0.6), 0 0 40px rgba(37, 211, 102, 0.4), 0 0 60px rgba(37, 211, 102, 0.2);
+                filter: brightness(1);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(37, 211, 102, 0.9), 0 0 60px rgba(37, 211, 102, 0.7), 0 0 90px rgba(37, 211, 102, 0.5);
+                filter: brightness(1.2);
+            }
+        }
+        
+        @keyframes crazyShake {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            10% { transform: translateX(-2px) rotate(-1deg); }
+            20% { transform: translateX(2px) rotate(1deg); }
+            30% { transform: translateX(-2px) rotate(-1deg); }
+            40% { transform: translateX(2px) rotate(1deg); }
+            50% { transform: translateX(-1px) rotate(-0.5deg); }
+            60% { transform: translateX(1px) rotate(0.5deg); }
+            70% { transform: translateX(-1px) rotate(-0.5deg); }
+            80% { transform: translateX(1px) rotate(0.5deg); }
+            90% { transform: translateX(-0.5px) rotate(-0.25deg); }
+        }
+        
+        @keyframes crazyPulse {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.05); }
+            50% { transform: scale(1.1); }
+            75% { transform: scale(0.95); }
+        }
+        
+        @keyframes crazyRotate {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+        }
+        
+        .crazy-whatsapp {
+            animation: 
+                crazyBounce 3s ease-in-out infinite,
+                crazyGlow 2s ease-in-out infinite,
+                crazyShake 4s ease-in-out infinite,
+                crazyPulse 1.5s ease-in-out infinite,
+                crazyRotate 6s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+        
+        .crazy-whatsapp:hover {
+            animation-play-state: paused;
+            transform: scale(1.2) !important;
+            box-shadow: 0 0 50px rgba(37, 211, 102, 1), 0 0 100px rgba(37, 211, 102, 0.8) !important;
+        }
+
         /* Counter Styling */
         .stat-card { border-left: 2px solid rgba(0, 174, 239, 0.3); padding-left: 1.5rem; }
+
+        /* Lead Capture Popup */
+        .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 1rem; }
+        .popup-content { background: rgba(5, 5, 5, 0.95); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 1.5rem; max-width: 500px; width: 100%; position: relative; transform: scale(0.7); opacity: 0; transition: all 0.3s ease; max-height: 90vh; overflow-y: auto; }
+        .popup-content.show { transform: scale(1); opacity: 1; }
+        .popup-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; z-index: 10001; }
+        .popup-form input, .popup-form textarea, .popup-form select { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: white; padding: 0.75rem; border-radius: 10px; width: 100%; margin-bottom: 1rem; font-size: 16px; }
+        .popup-form input:focus, .popup-form textarea:focus, .popup-form select:focus { border-color: #00AEEF; outline: none; }
+        .popup-form button { background: #00AEEF; color: white; border: none; padding: 0.75rem 2rem; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; transition: all 0.3s; font-size: 16px; }
+        .popup-form button:hover { box-shadow: 0 0 15px rgba(0, 174, 239, 0.5); transform: translateY(-1px); }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .stat-card { padding-left: 1rem; margin-bottom: 2rem; }
+            .stat-card h3 { font-size: 2.5rem; }
+            .stat-card p { font-size: 0.75rem; }
+            
+            nav .glass { padding: 0.75rem 1rem; }
+            nav img { height: 3rem; width: auto; }
+            
+            .hero-logo { height: 4rem !important; }
+            .hero-title { font-size: 2.5rem !important; line-height: 1.1 !important; }
+            .hero-subtitle { font-size: 1rem !important; padding: 0 1rem; }
+            .hero-button { padding: 1rem 2rem !important; font-size: 1rem !important; }
+            
+            .services-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .service-card { padding: 1.5rem !important; }
+            .service-card h3 { font-size: 1.5rem; }
+            .service-card p { font-size: 0.9rem; }
+            
+            .director-section { padding: 2rem 1rem; }
+            .director-content { flex-direction: column; text-align: center; gap: 2rem; }
+            .director-image { width: 200px; height: 200px; }
+            .director-text h2 { font-size: 1.75rem; }
+            .director-text p { font-size: 1rem; }
+            
+            .enquiry-section { padding: 2rem 1rem; }
+            .enquiry-form { padding: 1.5rem !important; }
+            .enquiry-form h2 { font-size: 2rem; }
+            .enquiry-form p { font-size: 0.9rem; }
+            
+            .footer { padding: 2rem 1rem; }
+            .footer img { height: 6rem; }
+            
+            /* Floating buttons mobile positioning */
+            .floating-btn { width: 3rem !important; height: 3rem !important; font-size: 1.25rem !important; }
+            .whatsapp-btn { bottom: 1rem !important; right: 1rem !important; }
+            .scroll-btn { bottom: 1rem !important; left: 1rem !important; }
+            
+            /* Reduce crazy animations on mobile for better performance */
+            @media (max-width: 768px) {
+                .crazy-whatsapp {
+                    animation: 
+                        crazyBounce 4s ease-in-out infinite,
+                        crazyGlow 3s ease-in-out infinite,
+                        crazyPulse 2s ease-in-out infinite;
+                }
+            }
+            
+            /* Mobile menu improvements */
+            #mobile-menu { 
+                padding: 1rem; 
+                opacity: 0;
+                transform: translateY(-10px);
+                transition: all 0.3s ease;
+            }
+            #mobile-menu a { 
+                font-size: 1rem; 
+                padding: 0.75rem 0;
+                display: block;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                transition: all 0.2s ease;
+            }
+            #mobile-menu a:hover { 
+                background: rgba(255, 255, 255, 0.05);
+                padding-left: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: 2rem !important; }
+            .service-card { padding: 1rem !important; }
+            .director-text h2 { font-size: 1.5rem; }
+            .enquiry-form h2 { font-size: 1.75rem; }
+            .floating-btn { width: 2.75rem !important; height: 2.75rem !important; font-size: 1rem !important; }
+        }
+
+        /* Touch-friendly buttons */
+        button, .btn-glow, .floating-btn { min-height: 44px; min-width: 44px; }
+        
+        /* Prevent zoom on input focus */
+        input[type="text"], input[type="tel"], input[type="email"], textarea, select { 
+            font-size: 16px !important; 
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        /* Prevent horizontal scroll */
+        html, body { overflow-x: hidden; }
+
+        /* Smooth scrolling for mobile */
+        html { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+
+        /* Better touch targets */
+        a, button { touch-action: manipulation; }
+
+        /* Loading states for better UX */
+        .loading { opacity: 0.6; pointer-events: none; }
     </style>
 </head>
 <body>
@@ -47,8 +218,8 @@
 
     <nav class="fixed top-0 w-full z-[100] glass py-3 px-6">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-2" data-aos="fade-right">
-                <img src="bblogo.png" alt="businessBOX Logo" class="h-20 w-auto logo-glow hover:scale-105 transition duration-300" loading="lazy">
+            <div class="flex items-center gap-2 ml-7" data-aos="fade-right">
+                <img src="bblogo.png" alt="businessBOX Logo" class="h-20 w-30 logo-glow hover:scale-105 transition duration-300" loading="lazy">
             </div>
             <div class="lg:hidden">
                 <button id="mobile-menu-btn" class="text-white focus:outline-none" aria-label="Toggle mobile menu">
@@ -80,14 +251,14 @@
     <!-- LOGO ABOVE HEADING -->
     <img src="logo.png"
          alt="businessBOX Logo"
-         class="mx-auto mb-6 h-25 md:h-24 logo-glow" loading="lazy">
-            <h1 class="text-6xl md:text-[90px] font-extrabold mb-6 leading-none tracking-tighter uppercase">
+         class="mx-auto mb-6 h-25 md:h-24 logo-glow hero-logo" loading="lazy">
+            <h1 class="text-6xl md:text-[90px] font-extrabold mb-6 leading-none tracking-tighter uppercase hero-title">
                 Dominating the <br><span class="gradient-text">Vizag's Market</span>
             </h1>
-            <p class="max-w-3xl mx-auto text-gray-400 text-lg md:text-xl mb-12 font-light">
+            <p class="max-w-3xl mx-auto text-gray-400 text-lg md:text-xl mb-12 font-light hero-subtitle">
                 Helping Your Business scale from local to national brands using the <strong>Sovereignty Ecosystem</strong>.
             </p>
-            <a href="#enquiry" class="bg-white text-black px-12 py-5 rounded-2xl font-black text-lg btn-glow transition-all">START YOUR EXPANSION</a>
+            <a href="#enquiry" class="bg-white text-black px-12 py-5 rounded-2xl font-black text-lg btn-glow transition-all hero-button">START YOUR EXPANSION</a>
         </div>
     </section>
 
@@ -119,8 +290,8 @@
                 <h2 class="text-5xl font-black mt-4 uppercase italic">The Growth Trinity</h2>
             </div>
             
-            <div class="grid md:grid-cols-3 gap-10">
-                <div class="glass p-12 rounded-[40px] border-l-4 border-l-[#00AEEF] transition-all hover:scale-105" data-aos="fade-right">
+            <div class="grid md:grid-cols-3 gap-10 services-grid">
+                <div class="glass p-12 rounded-[40px] border-l-4 border-l-[#00AEEF] transition-all hover:scale-105 service-card" data-aos="fade-right">
                     <div class="text-4xl mb-8"><i class="fas fa-gem text-[#00AEEF]"></i></div>
                     <h3 class="text-3xl font-bold mb-6 italic">Establishment</h3>
                     <p class="text-gray-400 mb-8 leading-relaxed">The foundation of your empire. We handle the <strong>Physical Identity</strong> that makes you premium.</p>
@@ -132,7 +303,7 @@
                     </ul>
                 </div>
 
-                <div class="glass p-12 rounded-[40px] border-l-4 border-l-white transition-all hover:scale-105" data-aos="fade-up">
+                <div class="glass p-12 rounded-[40px] border-l-4 border-l-white transition-all hover:scale-105 service-card" data-aos="fade-up">
                     <div class="text-4xl mb-8"><i class="fas fa-chart-line text-white"></i></div>
                     <h3 class="text-3xl font-bold mb-6 italic">Expansion</h3>
                     <p class="text-gray-400 mb-8 leading-relaxed">Getting your business in front of the <strong>Right Eyes</strong>. We build the engine that drives leads.</p>
@@ -144,7 +315,7 @@
                     </ul>
                 </div>
 
-                <div class="glass p-12 rounded-[40px] border-l-4 border-l-[#00AEEF] transition-all hover:scale-105" data-aos="fade-left">
+                <div class="glass p-12 rounded-[40px] border-l-4 border-l-[#00AEEF] transition-all hover:scale-105 service-card" data-aos="fade-left">
                     <div class="text-4xl mb-8"><i class="fas fa-crown text-[#00AEEF]"></i></div>
                     <h3 class="text-3xl font-bold mb-6 italic">Sovereignty</h3>
                     <p class="text-gray-400 mb-8 leading-relaxed">The ultimate level. We turn you into an <strong>Industry Leader</strong> who commands higher prices.</p>
@@ -159,14 +330,14 @@
         </div>
     </section>
 
-    <section id="director" class="py-20 px-6">
-        <div class="max-w-6xl mx-auto glass p-10 md:p-20 rounded-[60px] flex flex-col md:flex-row items-center gap-16" data-aos="fade-up">
+    <section id="director" class="py-20 px-6 director-section">
+        <div class="max-w-6xl mx-auto glass p-10 md:p-20 rounded-[60px] flex flex-col md:flex-row items-center gap-16 director-content" data-aos="fade-up">
             <div class="md:w-1/3">
                 <img src="vds.png"
                      alt="David Stanley"
-                     class="w-full h-full object-cover rounded-[40px] border-4 border-[#00AEEF]/30 shadow-2xl hover:scale-105 transition duration-500" loading="lazy">
+                     class="w-full h-full object-cover rounded-[40px] border-4 border-[#00AEEF]/30 shadow-2xl hover:scale-105 transition duration-500 director-image" loading="lazy">
             </div>
-            <div class="md:w-2/3">
+            <div class="md:w-2/3 director-text">
                 <i class="fas fa-quote-left text-5xl text-[#00AEEF] mb-8 block"></i>
                 <h2 class="text-4xl font-black mb-6">Building the Future of Vizag Businesses.</h2>
                 <p class="text-gray-300 text-xl italic leading-relaxed mb-10">
@@ -178,8 +349,8 @@
         </div>
     </section>
 
-    <section id="enquiry" class="py-22 px-6">
-        <div class="max-w-4xl w-full md:w-[65%] mx-auto text-center glass p-10 md:p-20 rounded-[50px] border-t-8 border-[#00AEEF]" data-aos="zoom-in">
+    <section id="enquiry" class="py-22 px-6 enquiry-section">
+        <div class="max-w-4xl w-full md:w-[65%] mx-auto text-center glass p-10 md:p-20 rounded-[50px] border-t-8 border-[#00AEEF] enquiry-form" data-aos="zoom-in">
             <h2 class="text-5xl font-black mb-8">Ready to Scale?</h2>
             <p class="text-gray-400 mb-12">Submit your details below for a <strong>Free Strategy Session</strong> with David.</p>
             <form class="grid md:grid-cols-2 gap-6 text-left">
@@ -212,18 +383,41 @@
         </div>
     </section>
 
-    <footer class="py-40 text-center text-gray-600">
+    <footer class="py-40 text-center text-gray-600 footer">
         <img src="logo.png" class="h-40 mx-auto mb-6 opacity-30" loading="lazy">
         <p>&copy; 2026 businessBOX | A Stanley Enterprise Organization</p>
     </footer>
 
-    <a href="https://wa.me/918688669816" class="fixed bottom-10 right-10 bg-[#25D366] w-16 h-16 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:scale-110 active:scale-95 transition-all z-[1000]">
+    <a href="https://wa.me/918688669816?text=Hello!%20I%20would%20like%20to%20know%20more%20about%20your%20business%20growth%20services." class="fixed bottom-10 right-10 bg-[#25D366] w-16 h-16 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:scale-110 active:scale-95 transition-all z-[1000] blink-animation floating-btn whatsapp-btn crazy-whatsapp" title="Chat with us on WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-10 left-10 bg-[#00AEEF] w-16 h-16 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:scale-110 active:scale-95 transition-all z-[1000]" aria-label="Scroll to top">
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-10 left-10 bg-[#00AEEF] w-16 h-16 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:scale-110 active:scale-95 transition-all z-[1000] floating-btn scroll-btn" aria-label="Scroll to top">
         <i class="fas fa-arrow-up"></i>
     </button>
+
+    <!-- Lead Capture Popup -->
+    <div id="lead-popup" class="popup-overlay">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup()">&times;</button>
+            <h2 class="text-xl md:text-2xl font-bold mb-4 gradient-text">Get Your Free Strategy Session</h2>
+            <p class="text-gray-400 mb-6 text-sm md:text-base">Ready to scale your business? Fill out the form below and we'll get back to you within 24 hours.</p>
+            <form class="popup-form" id="popup-form">
+                <input type="text" name="fullName" placeholder="Your Full Name" required>
+                <input type="tel" name="phone" placeholder="Phone Number" required>
+                <input type="email" name="email" placeholder="Email Address" required>
+                <input type="text" name="businessName" placeholder="Business Name" required>
+                <select name="packageInterest" required>
+                    <option value="">Select Package Interest</option>
+                    <option>Establishment Package</option>
+                    <option>Expansion Package</option>
+                    <option>Sovereignty (Full Empire) Package</option>
+                </select>
+                <textarea name="businessDescription" rows="3" placeholder="Tell us about your business (optional)"></textarea>
+                <button type="submit">Get My Free Strategy Call</button>
+            </form>
+        </div>
+    </div>
 
     <script>
         AOS.init({ duration: 1000, once: true });
@@ -266,9 +460,53 @@
         statsObserver.observe(document.querySelector('#stats'));
     </script>
     <script>
-        // Mobile menu toggle
+        // Mobile menu toggle with improved UX
         document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
+            const menu = document.getElementById('mobile-menu');
+            const isHidden = menu.classList.contains('hidden');
+            
+            if (isHidden) {
+                menu.classList.remove('hidden');
+                // Add a small delay for smooth animation
+                setTimeout(() => {
+                    menu.style.opacity = '1';
+                    menu.style.transform = 'translateY(0)';
+                }, 10);
+            } else {
+                menu.style.opacity = '0';
+                menu.style.transform = 'translateY(-10px)';
+                setTimeout(() => {
+                    menu.classList.add('hidden');
+                }, 300);
+            }
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                const menu = document.getElementById('mobile-menu');
+                menu.style.opacity = '0';
+                menu.style.transform = 'translateY(-10px)';
+                setTimeout(() => {
+                    menu.classList.add('hidden');
+                }, 300);
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('mobile-menu');
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            
+            if (!menu.classList.contains('hidden') && 
+                !menu.contains(e.target) && 
+                !menuBtn.contains(e.target)) {
+                menu.style.opacity = '0';
+                menu.style.transform = 'translateY(-10px)';
+                setTimeout(() => {
+                    menu.classList.add('hidden');
+                }, 300);
+            }
         });
     </script>
     <script>
@@ -326,6 +564,105 @@
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
       });
+      });
+    </script>
+
+    <!-- Lead Capture Popup Script -->
+    <script>
+      let popupShown = false;
+      let scrollTriggered = false;
+
+      function showPopup() {
+        if (!popupShown) {
+          const popup = document.getElementById('lead-popup');
+          popup.style.display = 'flex';
+          setTimeout(() => {
+            popup.querySelector('.popup-content').classList.add('show');
+          }, 100);
+          popupShown = true;
+        }
+      }
+
+      function closePopup() {
+        const popup = document.getElementById('lead-popup');
+        popup.querySelector('.popup-content').classList.remove('show');
+        setTimeout(() => {
+          popup.style.display = 'none';
+        }, 300);
+      }
+
+      // Show popup after 10 seconds
+      setTimeout(() => {
+        if (!popupShown) {
+          showPopup();
+        }
+      }, 10000);
+
+      // Show popup after scrolling 50% of the page
+      window.addEventListener('scroll', () => {
+        if (!scrollTriggered && !popupShown) {
+          const scrollTop = window.pageYOffset;
+          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const scrollPercent = (scrollTop / docHeight) * 100;
+          
+          if (scrollPercent > 50) {
+            scrollTriggered = true;
+            setTimeout(() => {
+              if (!popupShown) {
+                showPopup();
+              }
+            }, 2000); // Wait 2 seconds after reaching 50%
+          }
+        }
+      });
+
+      // Close popup when clicking overlay
+      document.getElementById('lead-popup').addEventListener('click', (e) => {
+        if (e.target.id === 'lead-popup') {
+          closePopup();
+        }
+      });
+
+      // Handle popup form submission
+      document.getElementById('popup-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const payload = {
+          fullName: formData.get('fullName'),
+          phone: formData.get('phone'),
+          email: formData.get('email'),
+          businessName: formData.get('businessName'),
+          businessDescription: formData.get('businessDescription') || 'Not provided',
+          packageInterest: formData.get('packageInterest'),
+          source: 'Lead Capture Popup'
+        };
+
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+
+        // Build WhatsApp message
+        const message = `*New Lead from Popup - businessBOX Website*\n\n` +
+          `👤 Full Name: ${payload.fullName}\n` +
+          `📧 Email: ${payload.email}\n` +
+          `📞 Phone: ${payload.phone}\n` +
+          `🏢 Business Name: ${payload.businessName}\n` +
+          `📝 Business Description: ${payload.businessDescription}\n` +
+          `🎯 Interested in: ${payload.packageInterest}\n` +
+          `📍 Source: ${payload.source}\n\n` +
+          `Please follow up!`;
+
+        const whatsappUrl = `https://wa.me/918688669816?text=${encodeURIComponent(message)}`;
+
+        // Open WhatsApp with pre-filled message
+        window.open(whatsappUrl, '_blank');
+
+        alert("Thank you! WhatsApp opened with your details. Please send the message to complete your enquiry.");
+        e.target.reset();
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        closePopup();
       });
     </script>
 </body>
