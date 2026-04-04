@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18031862773"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'AW-18031862773');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <meta name="description" content="businessBOX: High-growth agency helping Vizag businesses scale nationally with premium branding, web development, and marketing solutions. Free strategy session available.">
@@ -110,6 +100,61 @@
             box-shadow: 0 0 50px rgba(37, 211, 102, 1), 0 0 100px rgba(37, 211, 102, 0.8) !important;
         }
 
+        /* Left-side sticky WhatsApp notes */
+        .whatsapp-sticky-panel {
+            position: fixed;
+            left: 1rem;
+            top: 40%;
+            z-index: 1002;
+            display: flex;
+            flex-direction: column;
+            gap: 0.60rem;
+            transform: translateY(-50%);
+        }
+
+        .whatsapp-note {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            min-width: 180px;
+            max-width: 220px;
+            background: linear-gradient(135deg, #25D366 0%, #1DA650 100%);
+            color: #fff;
+            border-radius: 14px;
+            padding: 0.65rem 0.9rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            box-shadow: 0 7px 20px rgba(0,0,0,0.32);
+            border-left: 6px solid #fff;
+            text-decoration: none;
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+            position: relative;
+        }
+
+        .whatsapp-note::before {
+            content: "";
+            position: absolute;
+            top: -6px;
+            left: 14px;
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            border-radius: 3px;
+            transform: rotate(20deg);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .whatsapp-note i {
+            font-size: 1.18rem;
+        }
+
+        .whatsapp-note:hover {
+            transform: translateX(3px);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.42);
+        }
+
+        .whatsapp-note span { white-space: nowrap; }
+
         /* Counter Styling */
         .stat-card { border-left: 2px solid rgba(0, 174, 239, 0.3); padding-left: 1.5rem; }
 
@@ -160,7 +205,10 @@
             .floating-btn { width: 3rem !important; height: 3rem !important; font-size: 1.25rem !important; }
             .whatsapp-btn { bottom: 1rem !important; right: 1rem !important; }
             .scroll-btn { bottom: 1rem !important; left: 1rem !important; }
-            
+
+            .whatsapp-sticky-panel { left: 0.5rem !important; top: 50% !important; transform: translateY(-50%) !important; }
+            .whatsapp-note { min-width: 140px; max-width: 190px; font-size: 0.86rem; padding: 0.6rem 0.8rem; }
+
             /* Reduce crazy animations on mobile for better performance */
             @media (max-width: 768px) {
                 .crazy-whatsapp {
@@ -241,6 +289,7 @@
                 <a href="#services" class="hover:text-blue-400 transition">Services</a>
                 <a href="#director" class="hover:text-blue-400 transition">The Vision</a>
                 <a href="#enquiry" class="hover:text-blue-400 transition">Enquire</a>
+                <a href="aabharanaindex.html" class="hover:text-blue-400 transition">aabharana</a>
             </div>
             <div id="mobile-menu" class="hidden lg:hidden absolute top-full left-0 w-full bg-black/90 glass py-4 px-6">
                 <div class="flex flex-col space-y-4 text-center">
@@ -248,6 +297,7 @@
                     <a href="#services" class="hover:text-blue-400 transition">Services</a>
                     <a href="#director" class="hover:text-blue-400 transition">The Vision</a>
                     <a href="#enquiry" class="hover:text-blue-400 transition">Enquire</a>
+                    
                 </div>
             </div>
             <a href="https://wa.me/918688669816" class="bg-[#00AEEF] text-white px-6 py-2 rounded-lg font-bold text-sm btn-glow transition-all">WHATSAPP: 8688669816</a>
@@ -259,7 +309,7 @@
         <div class="text-center px-6 relative z-10" data-aos="zoom-out" data-aos-duration="1500">
 
     <!-- LOGO ABOVE HEADING -->
-    <img src="logo.png"
+    <img src="blogo (2).png"
          alt="businessBOX Logo"
          class="mx-auto mb-6 h-25 md:h-24 logo-glow hero-logo" loading="lazy">
             <h1 class="text-6xl md:text-[90px] font-extrabold mb-6 leading-none tracking-tighter uppercase hero-title">
@@ -394,9 +444,24 @@
     </section>
 
     <footer class="py-40 text-center text-gray-600 footer">
-        <img src="logo.png" class="h-40 mx-auto mb-6 opacity-30" loading="lazy">
+        <img src="blogo (2).png" class="h-40 mx-auto mb-6 opacity-30" loading="lazy">
         <p>&copy; 2026 businessBOX | A Stanley Enterprise Organization</p>
     </footer>
+
+    <div class="whatsapp-sticky-panel" aria-label="WhatsApp sticky notes">
+        <a href="https://wa.me/918688669816?text=Hello!%20I%20would%20like%20to%20know%20more%20about%20your%20business%20growth%20services." class="whatsapp-note" title="Chat with us on WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+            <span>Quick WhatsApp</span>
+        </a>
+        <a href="https://wa.me/918688669816?text=Hi!%20Please%20share%20your%20custom%20package%20details." class="whatsapp-note" title="Enquire pricing via WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+            <span>Request Pricing</span>
+        </a>
+        <a href="https://wa.me/918688669816?text=Hello!%20I%20need%20business%20strategy%20consulting.%20%F0%9F%92%AC" class="whatsapp-note" title="Start strategy conversation">
+            <i class="fab fa-whatsapp"></i>
+            <span>Get Strategy</span>
+        </a>
+    </div>
 
     <a href="https://wa.me/918688669816?text=Hello!%20I%20would%20like%20to%20know%20more%20about%20your%20business%20growth%20services." class="fixed bottom-10 right-10 bg-[#25D366] w-16 h-16 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:scale-110 active:scale-95 transition-all z-[1000] blink-animation floating-btn whatsapp-btn crazy-whatsapp" title="Chat with us on WhatsApp">
         <i class="fab fa-whatsapp"></i>
