@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AABHARANA | Handcrafted Grace</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,500&family=Montserrat:wght@200;400&display=swap');
+        
+        :root {
+            --gold: #D4AF37;
+            --deep-plum: #1A0F1A;
+            --silk-white: #F9F7F2;
+        }
+
+        body { 
+            background-color: var(--silk-white); 
+            color: #2D2D2D; 
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .serif { font-family: 'Cormorant Garamond', serif; }
+
+        /* INTRO CURTAIN ANIMATION */
+        #intro-curtain {
+            position: fixed; inset: 0;
+            background: var(--deep-plum);
+            z-index: 1000;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .shimmer-logo {
+            width: 1700px;
+            opacity: 0;
+            filter: brightness(1.2) sepia(0);
+        }
+
+        /* PREMIUM MASONRY GALLERY */
+        .gallery-wrapper {
+            column-count: 1;
+            column-gap: 1.5rem;
+        }
+        @media (min-width: 768px) { .gallery-wrapper { column-count: 2; } }
+        @media (min-width: 1024px) { .gallery-wrapper { column-count: 3; } }
+
+        .bangle-card {
+            break-inside: avoid;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            background: white;
+            padding: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .bangle-card img {
+            width: 100%;
+            display: block;
+            transition: all 1.2s ease;
+        }
+
+        .bangle-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(180, 150, 100, 0.12);
+        }
+
+        .bangle-card:hover img {
+            transform: scale(1.04);
+        }
+
+        /* WHATSAPP ORDER BUTTON */
+        .order-btn {
+            position: absolute;
+            bottom: 30px; left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--gold);
+            color: white;
+            padding: 12px 24px;
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0;
+            transition: all 0.4s ease;
+            white-space: nowrap;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .bangle-card:hover .order-btn {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .bangle-card:active .order-btn {
+            background: #25D366; /* WhatsApp Green on Click */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="intro-curtain">
+        <img src="LOGO.png" alt="AABHARANA" class="shimmer-logo" id="intro-logo">
+    </div>
+
+    <nav class="flex justify-between items-center px-8 py-6 sticky top-0 bg-white/90 backdrop-blur-md z-50 border-b border-stone-100">
+        <img src="LOGO.png" alt="Aabharana" class="h-14">
+        <div class="hidden md:block serif italic text-2xl tracking-widest text-stone-500">AABHARANA</div>
+        <div class="flex items-center gap-4">
+             <span class="text-[9px] tracking-widest text-stone-400 uppercase">Partner</span>
+             <img src="bblogo.png" class="h-4 opacity-40 grayscale" alt="businessBOX">
+        </div>
+    </nav>
+
+    <header class="py-24 text-center px-6">
+        <span class="text-[10px] tracking-[0.6em] text-gold uppercase opacity-70">Handcrafted Sovereignty</span>
+        <h1 class="serif text-5xl md:text-7xl italic mt-6 leading-tight">The Thread & Gold <br>Gallery</h1>
+        <p class="max-w-2xl mx-auto mt-10 text-stone-500 font-light italic leading-relaxed">
+            "Crafted in Threads, Worn with Grace." Explore our curated selection of bespoke jewelry designed for the modern woman who values heritage.
+        </p>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 pb-40">
+        <div class="gallery-wrapper" id="main-gallery">
+            </div>
+    </main>
+
+    <footer class="py-24 bg-white text-center border-t border-stone-100">
+        <img src="LOGO.png" alt="Aabharana" class="h-20 mx-auto mb-8 opacity-60">
+        <h4 class="serif italic text-3xl mb-4">Start Your Custom Journey</h4>
+        <p class="text-stone-400 text-[10px] tracking-widest uppercase mb-10">Visakhapatnam • Worldwide Shipping</p>
+        
+        <a href="https://wa.me/919899611623" target="_blank" class="inline-block border border-gold px-12 py-5 text-[10px] tracking-[0.4em] uppercase hover:bg-gold hover:text-white transition-all duration-500">
+            WhatsApp Concierge
+        </a>
+        
+        <div class="mt-24 opacity-30">
+            <p class="text-[8px] tracking-[0.3em] uppercase">© 2026 AABHARANA • Engineered by businessBOX</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. THE GALLERY ENGINE (ADD YOUR 10 IMAGES HERE) ---
+        // Just replace the 'img' links with your actual URLs.
+        const designs = [
+            { name: "Royal Marigold Silk", img: "twoc.jpg" },
+            { name: "Antique Rose Petal", img: "onec.jpg" },
+            { name: "Emerald Forest Weave", img: "threec.jpg" },
+            { name: "Midnight Pearl Thread", img: "fourc.jpg" },
+            { name: "Saffron Sunsets", img: "fivec.jpg" },
+            { name: "Temple Gold Heritage", img: "sixc.jpg" },
+            { name: "Oceanic Turquoise", img: "sevenc.jpg" },
+            { name: "Ivory Jasmine Knot", img: "eightc.jpg" },
+            { name: "Ruby Glow Festive", img: "ninec.jpg" },
+            { name: "Golden Earth Organic", img: "fourc.jpg" }
+        ];
+
+        const galleryContainer = document.getElementById('main-gallery');
+
+        // Populate the gallery automatically
+        designs.forEach((item) => {
+            const card = `
+                <div class="bangle-card group" onclick="sendOrder('${item.name}')">
+                    <img src="${item.img}" alt="${item.name}">
+                    <div class="mt-5 text-center">
+                        <h3 class="serif italic text-xl">${item.name}</h3>
+                        <p class="text-[9px] uppercase tracking-widest text-stone-400 mt-2">Limited Handcrafted Edition</p>
+                    </div>
+                    <button class="order-btn">Inquire via WhatsApp</button>
+                </div>
+            `;
+            galleryContainer.innerHTML += card;
+        });
+
+        // --- 2. INTRO ANIMATION LOGIC ---
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            tl.to("#intro-logo", { opacity: 1, duration: 2, ease: "power2.out" })
+              .to("#intro-curtain", { 
+                  y: "-100%", 
+                  duration: 1.5, 
+                  ease: "expo.inOut", 
+                  delay: 0.5 
+              });
+        });
+
+        // --- 3. WHATSAPP ORDER MESSAGE ENGINE ---
+        function sendOrder(productName) {
+            const phoneNumber = "919899611623"; // AABHARANA Direct Line
+            
+            // This builds the custom order message automatically
+            const message = encodeURIComponent(
+                `Namaste AABHARANA, I am interested in the "${productName}" design from your digital gallery. \n\nCould you please share more details about the sizing and customization options for this piece?`
+            );
+            
+            const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
+            window.open(whatsappURL, '_blank');
+        }
+    </script>
+
+</body>
+</html>
