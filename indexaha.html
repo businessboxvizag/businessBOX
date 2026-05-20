@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aha Amrutham | Premium Conscious Home Kitchen</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <style>
+        :root {
+            --sage: #3A5A40;
+            --gold: #B8860B;
+            --cream: #FDFBF7;
+            /* Soft Vanilla Cream */
+            --white: #FFFFFF;
+            --text: #2D2D2D;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--cream);
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- PRELOADER (Soft Vanilla & Gold) --- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--cream);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .reveal-logo {
+            width: 520px;
+            max-width: 100%;
+            opacity: 0;
+            transform: scale(0.8);
+            filter: drop-shadow(0 0 10px rgba(184, 134, 11, 0));
+            /* Gold Shadow */
+        }
+
+        /* --- HEADER & NAVIGATION --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            transform: translateY(-100%);
+        }
+
+        .header-logo {
+            height: 100px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .social-header-links {
+            display: flex;
+            gap: 20px;
+            border-right: 1px solid #ddd;
+            padding: 10px 30px 10px 0;
+        }
+
+        .social-header-links a {
+            color: var(--sage);
+            font-size: 1.4rem;
+            transition: 0.3s;
+        }
+
+        .social-header-links a:hover {
+            color: var(--gold);
+            transform: translateY(-3px);
+        }
+
+        .cart-trigger {
+            cursor: pointer;
+            background: var(--sage);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 35px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.3s;
+        }
+
+        #cart-count {
+            background: var(--gold);
+            color: white;
+            min-width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(253, 251, 247, 0.8), rgba(253, 251, 247, 0.8)),
+                url('https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=1800');
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            color: var(--sage);
+            line-height: 1.2;
+        }
+
+        .hero p {
+            letter-spacing: 5px;
+            color: var(--gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 15px;
+        }
+
+        /* --- MENU SECTION --- */
+        .section-padding {
+            padding: 100px 10%;
+        }
+
+        .menu-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .menu-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--sage);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 35px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
+            transition: 0.4s;
+            border: 1px solid #f0f0f0;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .card-body h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--sage);
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text);
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            width: 100%;
+            background: var(--sage);
+            color: white;
+            padding: 15px;
+            border-radius: 35px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: var(--gold);
+            box-shadow: 0 5px 15px rgba(184, 134, 11, 0.3);
+        }
+
+        /* --- REVIEWS SLIDER --- */
+        .reviews-section {
+            background: #fdfaf3;
+            padding: 100px 0;
+            overflow: hidden;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .reviews-container {
+            display: flex;
+            width: fit-content;
+            animation: slideReviews 35s linear infinite;
+        }
+
+        .reviews-container:hover {
+            animation-play-state: paused;
+        }
+
+        .review-card {
+            background: white;
+            width: 350px;
+            margin: 0 20px;
+            padding: 40px;
+            border-radius: 20px;
+            flex-shrink: 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+        }
+
+        .stars {
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+
+        @keyframes slideReviews {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(calc(-390px * 4));
+            }
+        }
+
+        /* --- CART SIDEBAR --- */
+        #cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 450px;
+            height: 100%;
+            background: var(--white);
+            box-shadow: -10px 0 50px rgba(0, 0, 0, 0.1);
+            z-index: 2000;
+            transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #cart-sidebar.active {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #f8f8f8;
+            padding-bottom: 15px;
+        }
+
+        .cart-items {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        footer {
+            padding: 60px 10%;
+            text-align: center;
+            background: #f8f6f0;
+        }
+
+        @media (max-width: 600px) {
+            #cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+
+            .social-header-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="preloader">
+        <img src="LOGOPNG.png" class="reveal-logo" alt="Logo Reveal">
+    </div>
+
+    <header id="main-header">
+        <div class="header-left">
+            <img src="LOGOPNG.png" class="header-logo" alt="Aha Amrutham">
+        </div>
+        <div class="header-right">
+            <div class="social-header-links">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://wa.me/918688669816"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <div class="cart-trigger" onclick="toggleCart()">
+                <i class="fas fa-shopping-basket"></i>
+                <div id="cart-count">0</div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero" id="main-hero">
+        <h1>Sincere. Conscious. Perfect.</h1>
+        <p>Premium Home-Based Nutrition | Visakhapatnam</p>
+    </section>
+
+    <section class="section-padding">
+        <div class="menu-header">
+            <h2>Our Signature Boxes</h2>
+        </div>
+        <div class="menu-grid">
+            <div class="card">
+                <div class="card-img"><img src="andhra chik.jpg">
+                </div>
+                <div class="card-body">
+                    <h3>Classic Andhra Chicken Meal</h3>
+                    <p style="font-size:0.85rem; color:#777; margin-bottom:15px;">White Rice • Signature Chicken Curry •
+                        Meriyala Rasam</p>
+                    <span class="price">₹299</span>
+                    <button class="btn" onclick="addToCart('Chicken Box', 299)">Add to Cart</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="muttonn.jpg">
+                </div>
+                <div class="card-body">
+                    <h3>Royal Mutton Meal</h3>
+                    <p style="font-size:0.85rem; color:#777; margin-bottom:15px;">White Rice • Tender Mutton Curry •
+                        Meriyala Rasam</p>
+                    <span class="price">₹299</span>
+                    <button class="btn" onclick="addToCart('Mutton Box', 299)">Add to Cart</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="prawnn.jpg"></div>
+                <div class="card-body">
+                    <h3>Costal Prawn Delight</h3>
+                    <p style="font-size:0.85rem; color:#777; margin-bottom:15px;">White Rice • Coastal Prawn Roast •
+                        Meriyala Rasam</p>
+                    <span class="price">₹299</span>
+                    <button class="btn" onclick="addToCart('Prawn Box', 299)">Add to Cart</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="chepala.jpg></div>
+                <div class=" card-body">
+                    <h3>Traditional Chepala Pulusu Meal</h3>
+                    <p style="font-size:0.85rem; color:#777; margin-bottom:15px;">Premium Rice • Paneer Butter Masala •
+                        Rasam</p>
+                    <span class="price">₹29</span>
+                    <button class="btn" onclick="addToCart('Veg Special', 249)">Add to Cart</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="ghee rost.jpg">
+                </div>
+                <div class="card-body">
+                    <h3>Spl. Kheema Ghee Roast Meal</h3>
+                    <p style="font-size:0.85rem; color:#777; margin-bottom:15px;">White Rice • Pepper Kheema • Meriyala
+                        Rasam</p>
+                    <span class="price">₹299</span>
+                    <button class="btn" onclick="addToCart('Kheema Box', 299)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="reviews-section">
+        <h2
+            style="text-align:center; font-family:'Playfair Display'; font-size:2.5rem; color:var(--sage); margin-bottom:50px;">
+            Conscious Community Reviews</h2>
+        <div class="reviews-container">
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p>"Homemade taste in every bite."</p><strong>- Rajesh V.</strong>
+            </div>
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p>"Finally, true premium home food in Vizag."</p><strong>- Sneha K.</strong>
+            </div>
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p>"Fresh, conscious, and healthy."</p><strong>- Dr. Arun</strong>
+            </div>
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p>"Loved the Meriyala Rasam!"</p><strong>- Meera R.</strong>
+            </div>
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p>"Homemade taste in every bite."</p><strong>- Rajesh V.</strong>
+            </div>
+        </div>
+    </section>
+
+    <div id="cart-sidebar">
+        <div class="cart-header">
+            <h2 style="font-family:'Playfair Display'; color:var(--sage);">Your Order</h2>
+            <i class="fas fa-times" onclick="toggleCart()" style="cursor:pointer; font-size:1.5rem;"></i>
+        </div>
+        <div class="cart-items" id="cart-list"></div>
+        <div style="border-top:2px solid #f8f8f8; padding-top:25px;">
+            <h3 style="display:flex; justify-content:space-between; margin-bottom:25px;">Subtotal: <span
+                    id="cart-total">₹0</span></h3>
+            <button class="btn" onclick="checkout()" style="padding:20px;">CONFIRM ORDER ON WHATSAPP</button>
+        </div>
+    </div>
+
+    <footer>
+        <img src="LOGOPNG.png" style="height:60px; margin-bottom:20px;">
+        <p>© 2026 AHA AMRUTHAM | Sincere. Conscious. Perfect.</p>
+        <p style="font-size:0.7rem; opacity:0.5; margin-top:10px;">Managed by businessBOX</p>
+    </footer>
+
+    <script>
+        // --- CINEMATIC "VANILLA GOLD" REVEAL ---
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            tl.to(".reveal-logo", { opacity: 1, scale: 1, duration: 1.5, ease: "power4.out" })
+                .to(".reveal-logo", { filter: "drop-shadow(0 0 25px rgba(184, 134, 11, 0.6))", duration: 0.8 }) // Gold Shadow Reveal
+                .to("#preloader", { y: "-100%", duration: 1.2, ease: "expo.inOut", delay: 0.5 })
+                .to("#main-header", { y: "0%", duration: 0.8, ease: "back.out(1.7)" }, "-=0.4")
+                .to("#main-hero", { opacity: 1, duration: 1 }, "-=0.2");
+        });
+
+        // --- CART & ORDER LOGIC ---
+        let cart = [];
+        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
+
+        // businessBOX Celebration UX
+        function triggerConfetti() {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#3A5A40', '#B8860B', '#FDFBF7'] });
+        }
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCart();
+            triggerConfetti();
+            if (cart.length === 1) setTimeout(toggleCart, 500);
+        }
+
+        function updateCart() {
+            const list = document.getElementById('cart-list');
+            list.innerHTML = ''; let sum = 0;
+            cart.forEach(item => {
+                sum += item.price;
+                list.innerHTML += `<div class="cart-item"><span>${item.name}</span><span>₹${item.price}</span></div>`;
+            });
+            document.getElementById('cart-count').innerText = cart.length;
+            document.getElementById('cart-total').innerText = `₹${sum}`;
+        }
+
+        function checkout() {
+            if (cart.length === 0) return alert("Your basket is empty!");
+            let msg = "Namaste Aha Amrutham! Order Details: %0A";
+            cart.forEach(i => msg += `- ${i.name} (₹${i.price})%0A`);
+            msg += `%0A*Total: ${document.getElementById('cart-total').innerText}* %0A Please confirm the delivery time.`;
+            window.open(`https://wa.me/918688669816?text=${msg}`);
+        }
+    </script>
+</body>
+
+</html>
