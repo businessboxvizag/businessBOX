@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BusinessBOX | Admin — Certificate Issuer</title>
+  <title>businessBOX | Admin — Certificate Issuer</title>
   <link rel="icon" href="favicon.svg">
-  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -13,391 +13,271 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --brand: #29ABD4;
-      --brand2: #1a8aac;
-      --dark: #1a1a2e;
-      --dark2: #16213e;
-      --gold: #c9a84c;
-      --gold2: #e8c97a;
-      --white: #ffffff;
-      --gray: #6b7280;
-      --light: #f8fafc;
-      --border: #e2e8f0;
-      --red: #ef4444;
+      --brand: #29ABD4; --brand2: #1a8aac;
+      --dark: #1a1a2e; --gold: #c9a84c;
+      --white: #ffffff; --gray: #6b7280;
+      --light: #f8fafc; --border: #e2e8f0; --red: #ef4444;
     }
     body { font-family: 'Urbanist', sans-serif; background: var(--light); color: var(--dark); min-height: 100vh; }
 
-    /* ── LOGIN SCREEN ── */
+    /* ── LOGIN ── */
     #login-screen {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 60%, #0f3460 100%);
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #0d1b3e 0%, #16213e 60%, #0f3460 100%);
     }
     .login-card {
-      background: var(--white);
-      border-radius: 20px;
-      padding: 3rem 2.5rem;
-      width: 100%;
-      max-width: 420px;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.4);
-      text-align: center;
+      background: var(--white); border-radius: 20px; padding: 3rem 2.5rem;
+      width: 100%; max-width: 420px; box-shadow: 0 25px 60px rgba(0,0,0,0.4); text-align: center;
     }
     .login-card img.logo { height: 52px; margin-bottom: 1.5rem; }
-    .login-card h2 { font-size: 1.6rem; font-weight: 700; color: var(--dark); margin-bottom: .3rem; }
+    .login-card h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: .3rem; }
     .login-card p { color: var(--gray); font-size: .95rem; margin-bottom: 2rem; }
-    .login-card .badge {
+    .login-badge {
       display: inline-flex; align-items: center; gap: .4rem;
-      background: #fef3c7; color: #92400e;
-      font-size: .78rem; font-weight: 600; padding: .3rem .8rem;
-      border-radius: 20px; margin-bottom: 1.5rem;
+      background: #fef3c7; color: #92400e; font-size: .78rem; font-weight: 600;
+      padding: .3rem .8rem; border-radius: 20px; margin-bottom: 1.5rem;
     }
-    .input-group { text-align: left; margin-bottom: 1.2rem; }
-    .input-group label { display: block; font-size: .85rem; font-weight: 600; color: var(--dark); margin-bottom: .4rem; }
-    .input-group input {
-      width: 100%; padding: .85rem 1rem;
-      border: 1.5px solid var(--border); border-radius: 10px;
-      font-family: inherit; font-size: .95rem; color: var(--dark);
-      transition: border-color .2s;
-      outline: none;
+    .inp-group { text-align: left; margin-bottom: 1.2rem; }
+    .inp-group label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: .4rem; }
+    .inp-group input {
+      width: 100%; padding: .85rem 1rem; border: 1.5px solid var(--border);
+      border-radius: 10px; font-family: inherit; font-size: .95rem; outline: none; transition: border-color .2s;
     }
-    .input-group input:focus { border-color: var(--brand); }
-    .input-group .eye-wrap { position: relative; }
-    .input-group .eye-wrap input { padding-right: 2.8rem; }
-    .input-group .eye-wrap .eye-btn {
-      position: absolute; right: .9rem; top: 50%; transform: translateY(-50%);
-      background: none; border: none; cursor: pointer; color: var(--gray); font-size: .95rem;
-    }
+    .inp-group input:focus { border-color: var(--brand); }
+    .eye-wrap { position: relative; }
+    .eye-wrap input { padding-right: 2.8rem; }
+    .eye-btn { position: absolute; right: .9rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--gray); }
     .btn-login {
-      width: 100%; padding: .95rem;
-      background: linear-gradient(135deg, var(--brand), var(--brand2));
-      color: white; border: none; border-radius: 10px;
-      font-family: inherit; font-size: 1rem; font-weight: 700;
-      cursor: pointer; transition: opacity .2s, transform .1s;
-      margin-top: .5rem;
+      width: 100%; padding: .95rem; background: linear-gradient(135deg, var(--brand), var(--brand2));
+      color: white; border: none; border-radius: 10px; font-family: inherit;
+      font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: .5rem; transition: opacity .2s;
     }
-    .btn-login:hover { opacity: .9; transform: translateY(-1px); }
+    .btn-login:hover { opacity: .9; }
     .login-error { color: var(--red); font-size: .88rem; margin-top: .8rem; display: none; }
 
     /* ── DASHBOARD ── */
     #dashboard { display: none; min-height: 100vh; }
-
     .topbar {
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 1rem 2rem;
-      display: flex; align-items: center; justify-content: space-between;
-      position: sticky; top: 0; z-index: 100;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
     .topbar-left { display: flex; align-items: center; gap: .8rem; }
     .topbar-left img { height: 38px; }
-    .topbar-left span { font-weight: 700; font-size: 1.05rem; color: var(--dark); }
+    .topbar-left span { font-weight: 700; font-size: 1.05rem; }
     .topbar-badge { background: var(--brand); color: white; font-size: .72rem; font-weight: 700; padding: .2rem .6rem; border-radius: 20px; }
     .btn-logout {
-      background: none; border: 1.5px solid var(--border);
-      color: var(--gray); padding: .5rem 1.1rem;
-      border-radius: 8px; font-family: inherit; font-size: .88rem; font-weight: 600;
-      cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: .5rem;
+      background: none; border: 1.5px solid var(--border); color: var(--gray);
+      padding: .5rem 1.1rem; border-radius: 8px; font-family: inherit; font-size: .88rem;
+      font-weight: 600; cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: .5rem;
     }
     .btn-logout:hover { border-color: var(--red); color: var(--red); }
 
-    .main { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+    .main { max-width: 1200px; margin: 0 auto; padding: 2.5rem 1.5rem; }
     .main h1 { font-size: 1.9rem; font-weight: 800; margin-bottom: .3rem; }
-    .main .subtitle { color: var(--gray); margin-bottom: 2.5rem; font-size: 1rem; }
+    .main .subtitle { color: var(--gray); margin-bottom: 2.5rem; }
 
-    .grid2 { display: grid; grid-template-columns: 400px 1fr; gap: 2rem; align-items: start; }
+    .layout { display: grid; grid-template-columns: 360px 1fr; gap: 2rem; align-items: start; }
 
     .card {
-      background: var(--white); border-radius: 16px;
-      padding: 2rem; border: 1px solid var(--border);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+      background: var(--white); border-radius: 16px; padding: 2rem;
+      border: 1px solid var(--border); box-shadow: 0 4px 16px rgba(0,0,0,0.05);
     }
-    .card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; align-items: center; gap: .6rem; }
+    .card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; align-items: center; gap: .6rem; }
     .card h3 i { color: var(--brand); }
 
     .form-field { margin-bottom: 1.2rem; }
-    .form-field label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: .4rem; color: var(--dark); }
-    .form-field label span.req { color: var(--red); }
-    .form-field input, .form-field select, .form-field textarea {
-      width: 100%; padding: .8rem 1rem;
-      border: 1.5px solid var(--border); border-radius: 10px;
-      font-family: inherit; font-size: .95rem; color: var(--dark);
-      outline: none; transition: border-color .2s;
-      background: white;
+    .form-field label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: .4rem; }
+    .form-field label .req { color: var(--red); }
+    .form-field input {
+      width: 100%; padding: .8rem 1rem; border: 1.5px solid var(--border); border-radius: 10px;
+      font-family: inherit; font-size: .95rem; outline: none; transition: border-color .2s;
     }
-    .form-field input:focus, .form-field select:focus { border-color: var(--brand); }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-field input:focus { border-color: var(--brand); }
+    .date-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .btn-gen {
-      width: 100%; padding: .95rem;
-      background: linear-gradient(135deg, var(--brand), var(--brand2));
-      color: white; border: none; border-radius: 10px;
-      font-family: inherit; font-size: 1rem; font-weight: 700;
-      cursor: pointer; transition: all .2s; margin-top: .5rem;
+      width: 100%; padding: .95rem; background: linear-gradient(135deg, var(--brand), var(--brand2));
+      color: white; border: none; border-radius: 10px; font-family: inherit; font-size: 1rem;
+      font-weight: 700; cursor: pointer; margin-top: .5rem; transition: all .2s;
       display: flex; align-items: center; justify-content: center; gap: .6rem;
     }
     .btn-gen:hover { opacity: .9; transform: translateY(-1px); }
-    .btn-gen:disabled { opacity: .6; cursor: not-allowed; transform: none; }
 
-    /* Preview area */
-    .preview-area h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.2rem; display: flex; align-items: center; gap: .6rem; }
-    .preview-area h3 i { color: var(--brand); }
+    /* Preview */
+    .preview-wrap { }
+    .preview-wrap h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 1.2rem; display: flex; align-items: center; gap: .6rem; }
+    .preview-wrap h3 i { color: var(--brand); }
     .preview-placeholder {
       background: var(--light); border: 2px dashed var(--border);
-      border-radius: 12px; padding: 4rem 2rem;
-      text-align: center; color: var(--gray);
+      border-radius: 12px; padding: 5rem 2rem; text-align: center; color: var(--gray);
     }
-    .preview-placeholder i { font-size: 3rem; margin-bottom: 1rem; color: var(--border); display: block; }
-    .preview-placeholder p { font-size: .95rem; }
+    .preview-placeholder i { font-size: 3rem; color: var(--border); display: block; margin-bottom: 1rem; }
 
-    /* Action buttons under preview */
-    .preview-actions { display: flex; gap: 1rem; margin-top: 1.2rem; flex-wrap: wrap; }
-    .btn-action {
-      flex: 1; min-width: 140px; padding: .8rem 1.2rem;
-      border: none; border-radius: 10px;
-      font-family: inherit; font-size: .92rem; font-weight: 600;
-      cursor: pointer; transition: all .2s;
+    #preview-box {
+      display: none; border-radius: 10px; overflow: hidden;
+      border: 1.5px solid var(--border); line-height: 0;
+    }
+    #preview-box img { width: 100%; display: block; }
+
+    .preview-actions { display: none; gap: 1rem; margin-top: 1.2rem; }
+    .btn-dl {
+      flex: 1; padding: .85rem; background: var(--dark); color: white; border: none;
+      border-radius: 10px; font-family: inherit; font-size: .92rem; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: .5rem; transition: background .2s;
+    }
+    .btn-dl:hover { background: #333; }
+    .btn-reset {
+      flex: 1; padding: .85rem; background: var(--light); color: var(--dark);
+      border: 1.5px solid var(--border); border-radius: 10px; font-family: inherit;
+      font-size: .92rem; font-weight: 600; cursor: pointer; transition: all .2s;
       display: flex; align-items: center; justify-content: center; gap: .5rem;
     }
-    .btn-pdf { background: var(--dark); color: white; }
-    .btn-pdf:hover { background: #333; }
-    .btn-new { background: var(--light); color: var(--dark); border: 1.5px solid var(--border); }
-    .btn-new:hover { border-color: var(--brand); color: var(--brand); }
+    .btn-reset:hover { border-color: var(--brand); color: var(--brand); }
 
-    /* Issued log */
-    .log-section { margin-top: 2.5rem; }
-    .log-section h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.2rem; display: flex; align-items: center; gap: .6rem; }
-    .log-section h3 i { color: var(--gold); }
+    /* Log */
+    .log-card { margin-top: 2rem; }
     .log-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
     .log-table th {
-      background: var(--light); padding: .75rem 1rem;
-      text-align: left; font-weight: 700; font-size: .8rem;
-      text-transform: uppercase; letter-spacing: .05em; color: var(--gray);
-      border-bottom: 1px solid var(--border);
+      background: var(--light); padding: .75rem 1rem; text-align: left;
+      font-weight: 700; font-size: .78rem; text-transform: uppercase;
+      letter-spacing: .05em; color: var(--gray); border-bottom: 1px solid var(--border);
     }
-    .log-table td { padding: .85rem 1rem; border-bottom: 1px solid var(--border); color: var(--dark); }
+    .log-table td { padding: .85rem 1rem; border-bottom: 1px solid var(--border); }
+    .log-table tr:last-child td { border-bottom: none; }
     .log-table tr:hover td { background: var(--light); }
+    .id-chip {
+      background: #eff6ff; color: #1d4ed8; font-size: .78rem;
+      font-weight: 700; padding: .2rem .6rem; border-radius: 6px; font-family: monospace;
+    }
     .log-empty { text-align: center; color: var(--gray); padding: 2rem; font-size: .9rem; }
-    .cert-id-chip {
-      background: #eff6ff; color: #1d4ed8;
-      font-size: .78rem; font-weight: 700; padding: .2rem .6rem;
-      border-radius: 6px; font-family: monospace;
-    }
-    .btn-reprint {
-      background: none; border: 1.5px solid var(--border);
-      color: var(--gray); padding: .3rem .8rem;
-      border-radius: 6px; font-family: inherit; font-size: .8rem; font-weight: 600;
-      cursor: pointer; transition: all .2s;
-    }
-    .btn-reprint:hover { border-color: var(--brand); color: var(--brand); }
 
-    /* ── CERTIFICATE TEMPLATE (hidden, used for PDF export) ── */
-    #cert-wrapper {
+    /* ── HIDDEN CERTIFICATE ──
+       Native render size 1600×1067 (exactly 0.5× of 3200×2134 source PDF)
+       All overlay positions are % of this box.                           */
+    #cert-stage {
       position: fixed; left: -9999px; top: 0;
-      width: 1122px; /* A4 landscape ~297mm at 96dpi */
+      width: 1600px; height: 1067px;
     }
-
     #certificate {
-      width: 1122px;
-      height: 794px;
-      background: #ffffff;
-      display: flex;
-      font-family: 'Urbanist', 'Arial', sans-serif;
-      position: relative;
-      overflow: hidden;
+      width: 1600px; height: 1067px;
+      position: relative; overflow: hidden;
+      background: url('cert_template.png') center/cover no-repeat;
+      font-family: 'Urbanist', Arial, sans-serif;
     }
 
-    /* Left dark sidebar */
-    .cert-sidebar {
-      width: 52px;
-      background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-      flex-shrink: 0;
-      position: relative;
-      z-index: 2;
-    }
-    .cert-sidebar-accent {
-      position: absolute; top: 0; right: 0; width: 6px; height: 100%;
-      background: linear-gradient(180deg, var(--gold) 0%, var(--gold2) 50%, var(--gold) 100%);
-    }
-
-    /* Diagonal decorative lines behind content */
-    .cert-bg-lines {
-      position: absolute; top: 0; left: 52px; right: 0; bottom: 0;
-      overflow: hidden; pointer-events: none; z-index: 0;
-    }
-    .cert-bg-lines::before {
-      content: '';
+    /* Intern name — sits on the gold underline */
+    #o-name {
       position: absolute;
-      top: -100px; right: -50px;
-      width: 500px; height: 900px;
-      background: linear-gradient(135deg, transparent 40%, rgba(201,168,76,0.04) 40%, rgba(201,168,76,0.04) 60%, transparent 60%),
-                  linear-gradient(135deg, transparent 30%, rgba(41,171,212,0.03) 30%, rgba(41,171,212,0.03) 70%, transparent 70%);
-      transform: skewX(-10deg);
+      top: 47.2%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Cinzel', 'Georgia', serif;
+      font-size: 44px;
+      font-weight: 700;
+      color: #0d1b3e;
+      letter-spacing: 1.5px;
+      white-space: nowrap;
+      text-align: center;
+      line-height: 1;
     }
 
-    .cert-body {
-      flex: 1;
-      padding: 36px 50px 36px 44px;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      z-index: 1;
+    /* Duration text — under DURATION icon/label column */
+    #o-duration {
+      position: absolute;
+      top: 67.5%;
+      left: 21%;
+      transform: translateX(-50%);
+      font-size: 15px;
+      font-weight: 700;
+      color: #0d1b3e;
+      text-align: center;
+      white-space: nowrap;
     }
 
-    /* Header row */
-    .cert-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 20px;
-    }
-    .cert-header-left {
-      display: flex; align-items: center; gap: 10px;
-    }
-    .cert-swiss-flag {
-      width: 32px; height: 32px;
-      background: red; border-radius: 3px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .cert-swiss-flag::before {
-      content: '+';
-      color: white; font-size: 22px; font-weight: 700; line-height: 1;
-    }
-    .cert-brand-logo {
-      display: flex; flex-direction: column; line-height: 1.1;
-    }
-    .cert-brand-logo .brand-top { font-size: 11px; color: #888; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
-    .cert-brand-logo .brand-name { font-size: 22px; font-weight: 800; color: var(--dark); letter-spacing: -.5px; }
-    .cert-brand-logo .brand-name span { color: var(--brand); }
-
-    /* ISO badge */
-    .cert-iso-badge {
-      width: 68px; height: 68px;
-      border: 3px solid var(--gold);
-      border-radius: 50%;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
+    /* White cover over DEPARTMENT column so QR looks clean */
+    #o-dept-cover {
+      position: absolute;
+      top: 58%;
+      left: 36%;
+      width: 11%;
+      height: 12%;
       background: white;
     }
-    .cert-iso-badge .iso-top { font-size: 7px; color: var(--gray); font-weight: 600; letter-spacing: 1px; }
-    .cert-iso-badge .iso-main { font-size: 14px; font-weight: 800; color: var(--dark); }
-    .cert-iso-badge .iso-stars { font-size: 8px; color: var(--gold); letter-spacing: 1px; }
-    .cert-iso-badge .iso-bot { font-size: 6.5px; color: var(--gray); font-weight: 600; }
 
-    .cert-title-block { margin-bottom: 14px; }
-    .cert-reg-label { font-size: 11px; color: var(--gray); letter-spacing: 2px; text-transform: uppercase; font-weight: 600; margin-bottom: 4px; }
-    .cert-title { font-size: 30px; font-weight: 800; color: var(--dark); line-height: 1.1; margin-bottom: 12px; }
-
-    .cert-certify-line { font-size: 11.5px; color: #555; margin-bottom: 6px; }
-    .cert-name { font-size: 24px; font-weight: 800; color: var(--dark); margin-bottom: 3px; letter-spacing: -.3px; }
-    .cert-role { font-size: 11px; color: var(--gray); margin-bottom: 12px; font-style: italic; }
-
-    .cert-compliance-line { font-size: 11px; color: #555; margin-bottom: 4px; }
-    .cert-program { font-size: 16px; font-weight: 800; color: var(--dark); line-height: 1.25; margin-bottom: 14px; }
-
-    .cert-scope-label { font-size: 10px; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .cert-scope-text { font-size: 10.5px; color: #555; line-height: 1.5; max-width: 520px; margin-bottom: 14px; }
-
-    /* Signature + QR row */
-    .cert-footer-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-top: auto;
+    /* QR code block — centred in DEPARTMENT column */
+    #o-qr-wrap {
+      position: absolute;
+      top: 59%;
+      left: 42%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
     }
-    .cert-sig-block { }
-    .cert-sig-img {
-      font-family: 'Georgia', cursive;
-      font-size: 26px;
-      color: var(--dark);
-      letter-spacing: -1px;
-      font-style: italic;
-      border-bottom: 1.5px solid var(--dark);
-      padding-bottom: 2px;
-      margin-bottom: 4px;
-      display: inline-block;
-    }
-    .cert-sig-name { font-size: 10.5px; font-weight: 700; color: var(--dark); }
-    .cert-sig-title { font-size: 9.5px; color: var(--gray); }
-
-    .cert-qr-block {
-      display: flex; flex-direction: column; align-items: center; gap: 6px;
-    }
-    .cert-qr-box {
-      width: 88px; height: 88px;
-      border: 2px solid #e5e7eb;
-      border-radius: 8px;
+    #o-qr-box {
+      width: 100px; height: 100px;
+      background: white;
+      border: 1.5px solid #ddd;
+      border-radius: 6px;
+      padding: 3px;
       display: flex; align-items: center; justify-content: center;
-      background: white; padding: 4px;
     }
-    .cert-qr-box canvas, .cert-qr-box img { width: 80px !important; height: 80px !important; }
-    .cert-qr-label { font-size: 8px; color: var(--gray); font-weight: 600; text-align: center; letter-spacing: .5px; }
+    #o-qr-box canvas, #o-qr-box img { width: 92px !important; height: 92px !important; }
+    #o-qr-label {
+      font-size: 9px; font-weight: 700; color: #555;
+      letter-spacing: .8px; text-transform: uppercase;
+    }
 
-    /* Details bar at bottom */
-    .cert-details-bar {
-      background: var(--dark);
-      padding: 10px 50px 10px 44px;
-      display: flex; align-items: center; gap: 2.5rem;
-      flex-shrink: 0;
+    /* Certificate ID value — bottom-left */
+    #o-cert-id {
+      position: absolute;
+      top: 90%;
+      left: 14.5%;
+      font-size: 14px;
+      font-weight: 700;
+      color: #c9a84c;
+      letter-spacing: .5px;
     }
-    .cert-detail-item { }
-    .cert-detail-item .d-label { font-size: 7.5px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
-    .cert-detail-item .d-value { font-size: 9.5px; color: white; font-weight: 600; }
 
-    /* Registered office fine print */
-    .cert-fine-print {
-      padding: 6px 50px 8px 44px;
-      background: #f8f9fa;
-      border-top: 1px solid var(--border);
-    }
-    .cert-fine-print p { font-size: 7.5px; color: #999; line-height: 1.5; }
-
-    /* Inline preview (visible preview on page) */
-    #preview-container {
-      overflow: auto;
-      border-radius: 12px;
-      border: 1.5px solid var(--border);
-      background: #f1f5f9;
-      display: none;
-    }
-    #preview-inner {
-      transform-origin: top left;
-      display: block;
+    /* Date of Issue value — bottom-right */
+    #o-date {
+      position: absolute;
+      top: 90%;
+      left: 77.5%;
+      font-size: 14px;
+      font-weight: 700;
+      color: #0d1b3e;
     }
   </style>
 </head>
 <body>
 
-<!-- ════════════════════════ LOGIN ════════════════════════ -->
+<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-card">
-    <img src="bblogo.png" alt="BusinessBOX" class="logo" onerror="this.style.display='none'">
-    <div class="badge"><i class="fas fa-lock"></i> Admin Access Only</div>
+    <img src="bblogo.png" alt="businessBOX" class="logo" onerror="this.style.display='none'">
+    <div class="login-badge"><i class="fas fa-lock"></i> Admin Access Only</div>
     <h2>Admin Portal</h2>
     <p>Sign in to issue internship certificates</p>
-    <div class="input-group">
-      <label>Email Address</label>
-      <input type="email" id="inp-email" placeholder="your@email.com" autocomplete="email">
+    <div class="inp-group">
+      <label>Email</label>
+      <input type="email" id="inp-email" placeholder="your@email.com">
     </div>
-    <div class="input-group">
+    <div class="inp-group">
       <label>Password</label>
       <div class="eye-wrap">
-        <input type="password" id="inp-password" placeholder="••••••••" autocomplete="current-password">
-        <button class="eye-btn" onclick="togglePwd()" type="button" id="eye-icon"><i class="fas fa-eye"></i></button>
+        <input type="password" id="inp-pwd" placeholder="••••••••">
+        <button class="eye-btn" onclick="togglePwd()" type="button" id="eye-ic"><i class="fas fa-eye"></i></button>
       </div>
     </div>
     <button class="btn-login" onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> Sign In</button>
-    <div class="login-error" id="login-error"><i class="fas fa-exclamation-circle"></i> Invalid credentials. Try again.</div>
+    <div class="login-error" id="login-err"><i class="fas fa-exclamation-circle"></i> Invalid credentials.</div>
   </div>
 </div>
 
-<!-- ════════════════════════ DASHBOARD ════════════════════════ -->
+<!-- DASHBOARD -->
 <div id="dashboard">
   <div class="topbar">
     <div class="topbar-left">
-      <img src="bblogo.png" alt="BusinessBOX" onerror="this.style.display='none'">
+      <img src="bblogo.png" alt="businessBOX" onerror="this.style.display='none'">
       <span>businessBOX</span>
       <span class="topbar-badge">Admin</span>
     </div>
@@ -408,7 +288,7 @@
     <h1>Certificate Issuer</h1>
     <p class="subtitle">Generate internship completion certificates for your interns.</p>
 
-    <div class="grid2">
+    <div class="layout">
       <!-- Form -->
       <div class="card">
         <h3><i class="fas fa-user-graduate"></i> Intern Details</h3>
@@ -416,15 +296,7 @@
           <label>Full Name <span class="req">*</span></label>
           <input type="text" id="f-name" placeholder="e.g. Ravi Kumar Sharma">
         </div>
-        <div class="form-field">
-          <label>Internship Role <span class="req">*</span></label>
-          <input type="text" id="f-role" placeholder="e.g. Digital Marketing Intern">
-        </div>
-        <div class="form-field">
-          <label>Department</label>
-          <input type="text" id="f-dept" placeholder="e.g. Marketing & Branding">
-        </div>
-        <div class="form-row">
+        <div class="date-row">
           <div class="form-field">
             <label>Start Date <span class="req">*</span></label>
             <input type="date" id="f-start">
@@ -434,182 +306,82 @@
             <input type="date" id="f-end">
           </div>
         </div>
-        <div class="form-field">
-          <label>Additional Note <small style="color:#999">(optional)</small></label>
-          <input type="text" id="f-note" placeholder="e.g. with distinction">
-        </div>
-        <button class="btn-gen" onclick="generateCertificate()" id="btn-gen">
+        <button class="btn-gen" onclick="generateCert()">
           <i class="fas fa-certificate"></i> Generate Certificate
         </button>
       </div>
 
       <!-- Preview -->
-      <div class="preview-area">
-        <h3><i class="fas fa-eye"></i> Certificate Preview</h3>
-        <div class="preview-placeholder" id="placeholder-msg">
+      <div class="preview-wrap">
+        <h3><i class="fas fa-eye"></i> Preview</h3>
+        <div class="preview-placeholder" id="ph">
           <i class="fas fa-file-certificate"></i>
-          <p>Fill in the form and click <strong>Generate Certificate</strong><br>to preview it here.</p>
+          <p>Fill in the form and click <strong>Generate Certificate</strong></p>
         </div>
-        <div id="preview-container">
-          <div id="preview-inner"></div>
-        </div>
-        <div class="preview-actions" id="preview-actions" style="display:none;">
-          <button class="btn-action btn-pdf" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Download PDF</button>
-          <button class="btn-action btn-new" onclick="resetForm()"><i class="fas fa-plus"></i> New Certificate</button>
+        <div id="preview-box"></div>
+        <div class="preview-actions" id="prev-actions">
+          <button class="btn-dl" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Download PDF</button>
+          <button class="btn-reset" onclick="resetForm()"><i class="fas fa-plus"></i> New Certificate</button>
         </div>
       </div>
     </div>
 
-    <!-- Issued Log -->
-    <div class="log-section card" style="margin-top:2rem;">
-      <h3><i class="fas fa-history"></i> Issued Certificates</h3>
+    <!-- Log -->
+    <div class="card log-card">
+      <h3><i class="fas fa-history" style="color:var(--gold)"></i> Issued Certificates</h3>
       <table class="log-table">
         <thead>
-          <tr>
-            <th>Cert ID</th>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Period</th>
-            <th>Issued On</th>
-            <th>Action</th>
-          </tr>
+          <tr><th>Cert ID</th><th>Name</th><th>Period</th><th>Issued On</th><th></th></tr>
         </thead>
         <tbody id="log-body">
-          <tr><td colspan="6" class="log-empty"><i class="fas fa-inbox" style="margin-right:.5rem"></i>No certificates issued yet.</td></tr>
+          <tr><td colspan="5" class="log-empty"><i class="fas fa-inbox"></i> No certificates yet.</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 </div>
 
-<!-- ═══ HIDDEN CERT TEMPLATE ═══ -->
-<div id="cert-wrapper">
+<!-- HIDDEN CERTIFICATE STAGE (for capture) -->
+<div id="cert-stage">
   <div id="certificate">
-    <div class="cert-sidebar">
-      <div class="cert-sidebar-accent"></div>
+    <div id="o-name">INTERN NAME</div>
+    <div id="o-duration">01 Jan 2025 – 31 Mar 2025</div>
+    <div id="o-dept-cover"></div>
+    <div id="o-qr-wrap">
+      <div id="o-qr-box"></div>
+      <div id="o-qr-label">Scan to Verify</div>
     </div>
-    <div style="flex:1; display:flex; flex-direction:column;">
-      <div class="cert-body">
-        <!-- Header -->
-        <div class="cert-header">
-          <div class="cert-header-left">
-            <div class="cert-swiss-flag"></div>
-            <div class="cert-brand-logo">
-              <span class="brand-top">Certified by</span>
-              <span class="brand-name">business<span>BOX</span></span>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:16px;">
-            <div class="cert-iso-badge">
-              <span class="iso-top">QUALITY</span>
-              <span class="iso-main">ISO</span>
-              <span class="iso-stars">★★★★★</span>
-              <span class="iso-bot">CERTIFIED</span>
-            </div>
-            <div style="text-align:right;">
-              <div style="font-size:26px;font-weight:900;color:#1a1a2e;letter-spacing:2px;">business<span style="color:#29ABD4;">BOX</span></div>
-              <div style="font-size:9px;color:#888;letter-spacing:1.5px;text-transform:uppercase;">High-Growth Agency · Vizag</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Title -->
-        <div class="cert-title-block">
-          <div class="cert-reg-label">— Official Document</div>
-          <div class="cert-title">Certificate of Internship</div>
-        </div>
-
-        <!-- Body text -->
-        <div class="cert-certify-line">This is to certify that</div>
-        <div class="cert-name" id="cert-name">YOUR INTERN NAME HERE</div>
-        <div class="cert-role" id="cert-role-display">Digital Marketing Intern · Marketing & Branding</div>
-
-        <div class="cert-compliance-line">has successfully completed the internship program at</div>
-        <div class="cert-program">businessBOX High-Growth Agency™<br>
-          <span style="font-size:13px;font-weight:500;color:#555;" id="cert-period-display">01 Jan 2025 – 31 Mar 2025</span>
-        </div>
-
-        <div class="cert-scope-label">Scope of Internship</div>
-        <div class="cert-scope-text" id="cert-scope-text">
-          Digital Marketing &amp; Brand Strategy: Intern worked across branding, web development, social media management,
-          and client engagement within the Sovereignty Ecosystem framework at businessBOX, Visakhapatnam.
-        </div>
-
-        <!-- Footer: Sig + QR -->
-        <div class="cert-footer-row">
-          <div class="cert-sig-block">
-            <div class="cert-sig-img">Srinivas</div>
-            <div class="cert-sig-name">Srinivas Pogiri</div>
-            <div class="cert-sig-title">Founder &amp; CEO, businessBOX</div>
-          </div>
-          <div class="cert-qr-block">
-            <div class="cert-qr-box" id="cert-qr-inner"></div>
-            <div class="cert-qr-label">SCAN TO VERIFY</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Details bar -->
-      <div class="cert-details-bar">
-        <div class="cert-detail-item">
-          <div class="d-label">Certificate No.</div>
-          <div class="d-value" id="cert-id-display">BB-2025-000000</div>
-        </div>
-        <div class="cert-detail-item">
-          <div class="d-label">Issue Date</div>
-          <div class="d-value" id="cert-issue-date">01 January 2025</div>
-        </div>
-        <div class="cert-detail-item">
-          <div class="d-label">Internship Start</div>
-          <div class="d-value" id="cert-start-display">01 Jan 2025</div>
-        </div>
-        <div class="cert-detail-item">
-          <div class="d-label">Internship End</div>
-          <div class="d-value" id="cert-end-display">31 Mar 2025</div>
-        </div>
-        <div class="cert-detail-item" id="cert-note-item" style="display:none;">
-          <div class="d-label">Note</div>
-          <div class="d-value" id="cert-note-display"></div>
-        </div>
-      </div>
-
-      <!-- Fine print -->
-      <div class="cert-fine-print">
-        <p>Registered Office: businessBOX Agency, Visakhapatnam, Andhra Pradesh, India · businessboxvizag.com &nbsp;|&nbsp;
-        This certificate is issued by businessBOX and confirms the intern's participation in the stated program.
-        businessBOX does not warrant fitness for any specific purpose beyond the stated internship.
-        Verify authenticity by scanning the QR code.</p>
-      </div>
-    </div>
+    <div id="o-cert-id">BB-2025-000000</div>
+    <div id="o-date">01 January 2025</div>
   </div>
 </div>
 
 <script>
   // ── AUTH ──
-  const CREDS = { email: 'businessboxvizag@gmail.com', password: 'BBvizag23' };
+  const CREDS = { email:'businessboxvizag@gmail.com', password:'BBvizag23' };
+  let current = null;
+
+  document.getElementById('inp-pwd').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+  document.getElementById('inp-email').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 
   function togglePwd() {
-    const inp = document.getElementById('inp-password');
-    const icon = document.getElementById('eye-icon').querySelector('i');
-    if (inp.type === 'password') { inp.type = 'text'; icon.className = 'fas fa-eye-slash'; }
-    else { inp.type = 'password'; icon.className = 'fas fa-eye'; }
+    const i = document.getElementById('inp-pwd');
+    const ic = document.getElementById('eye-ic').querySelector('i');
+    i.type = i.type==='password' ? 'text' : 'password';
+    ic.className = i.type==='password' ? 'fas fa-eye' : 'fas fa-eye-slash';
   }
-
-  document.getElementById('inp-password').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
-  document.getElementById('inp-email').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
 
   function doLogin() {
     const email = document.getElementById('inp-email').value.trim();
-    const pwd = document.getElementById('inp-password').value;
-    const err = document.getElementById('login-error');
-    if (email === CREDS.email && pwd === CREDS.password) {
+    const pwd   = document.getElementById('inp-pwd').value;
+    if (email===CREDS.email && pwd===CREDS.password) {
       document.getElementById('login-screen').style.display = 'none';
       document.getElementById('dashboard').style.display = 'block';
-      err.style.display = 'none';
-      loadLog();
+      document.getElementById('login-err').style.display = 'none';
+      renderLog();
     } else {
-      err.style.display = 'block';
-      document.getElementById('inp-password').value = '';
+      document.getElementById('login-err').style.display = 'block';
+      document.getElementById('inp-pwd').value = '';
     }
   }
 
@@ -617,166 +389,152 @@
     document.getElementById('dashboard').style.display = 'none';
     document.getElementById('login-screen').style.display = 'flex';
     document.getElementById('inp-email').value = '';
-    document.getElementById('inp-password').value = '';
+    document.getElementById('inp-pwd').value = '';
   }
 
-  // ── CERT GENERATION ──
-  let currentCert = null;
-
-  function fmtDate(dateStr) {
-    if (!dateStr) return '';
+  // ── HELPERS ──
+  function fmt(dateStr) {
     const d = new Date(dateStr + 'T00:00:00');
-    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+  }
+  function fmtLong(dateStr) {
+    const d = new Date(dateStr + 'T00:00:00');
+    return d.toLocaleDateString('en-GB', { day:'2-digit', month:'long', year:'numeric' });
+  }
+  function genId() {
+    return 'BB-' + new Date().getFullYear() + '-' + (Math.floor(Math.random()*900000)+100000);
   }
 
-  function generateId() {
-    const now = new Date();
-    const yr = now.getFullYear();
-    const rand = Math.floor(Math.random() * 900000) + 100000;
-    return `BB-${yr}-${rand}`;
-  }
-
-  async function generateCertificate() {
+  // ── GENERATE ──
+  async function generateCert() {
     const name  = document.getElementById('f-name').value.trim();
-    const role  = document.getElementById('f-role').value.trim();
-    const dept  = document.getElementById('f-dept').value.trim();
     const start = document.getElementById('f-start').value;
     const end   = document.getElementById('f-end').value;
-    const note  = document.getElementById('f-note').value.trim();
 
-    if (!name || !role || !start || !end) {
-      alert('Please fill in: Full Name, Internship Role, Start Date and End Date.');
-      return;
-    }
-    if (new Date(start) > new Date(end)) {
-      alert('Start date cannot be after end date.');
-      return;
-    }
+    if (!name || !start || !end) { alert('Please fill in Name, Start Date and End Date.'); return; }
+    if (new Date(start) > new Date(end)) { alert('Start date cannot be after end date.'); return; }
 
-    const certId = generateId();
-    const issueDate = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
-    const verifyUrl = `${location.origin.replace('admin.html','')}/verify.html?id=${encodeURIComponent(certId)}&name=${encodeURIComponent(name)}&role=${encodeURIComponent(role)}&dept=${encodeURIComponent(dept)}&start=${encodeURIComponent(fmtDate(start))}&end=${encodeURIComponent(fmtDate(end))}`;
+    const id        = genId();
+    const issueDate = new Date().toLocaleDateString('en-GB', {day:'2-digit',month:'long',year:'numeric'});
+    const verifyUrl = window.location.origin +
+      (window.location.pathname.replace('admin.html','')) +
+      'verify.html?id=' + encodeURIComponent(id) +
+      '&name=' + encodeURIComponent(name) +
+      '&start=' + encodeURIComponent(fmt(start)) +
+      '&end='   + encodeURIComponent(fmt(end));
 
-    currentCert = { certId, name, role, dept, start: fmtDate(start), end: fmtDate(end), note, issueDate, verifyUrl };
+    current = { id, name, start: fmt(start), end: fmt(end), rawStart: start, rawEnd: end, issueDate, verifyUrl };
 
-    // Populate hidden cert
-    document.getElementById('cert-name').textContent = name.toUpperCase();
-    const roleText = dept ? `${role} · ${dept}` : role;
-    document.getElementById('cert-role-display').textContent = roleText;
-    document.getElementById('cert-period-display').textContent = `${fmtDate(start)} – ${fmtDate(end)}`;
-    document.getElementById('cert-id-display').textContent = certId;
-    document.getElementById('cert-issue-date').textContent = issueDate;
-    document.getElementById('cert-start-display').textContent = fmtDate(start);
-    document.getElementById('cert-end-display').textContent = fmtDate(end);
+    // Populate overlays
+    document.getElementById('o-name').textContent     = name.toUpperCase();
+    document.getElementById('o-duration').textContent = fmt(start) + ' – ' + fmt(end);
+    document.getElementById('o-cert-id').textContent  = id;
+    document.getElementById('o-date').textContent     = issueDate;
 
-    // Scope
-    const scopeEl = document.getElementById('cert-scope-text');
-    const deptLabel = dept || role;
-    scopeEl.innerHTML = `${deptLabel}: ${name} successfully completed all assigned tasks and demonstrated professional growth during the internship at businessBOX, Visakhapatnam.${note ? ' ' + note.charAt(0).toUpperCase() + note.slice(1) + '.' : ''}`;
+    // Font-size scaling for long names
+    const nameEl = document.getElementById('o-name');
+    nameEl.style.fontSize = name.length > 22 ? '34px' : name.length > 16 ? '40px' : '44px';
 
-    // Note bar
-    if (note) {
-      document.getElementById('cert-note-item').style.display = '';
-      document.getElementById('cert-note-display').textContent = note;
-    } else {
-      document.getElementById('cert-note-item').style.display = 'none';
-    }
-
-    // QR Code
-    const qrContainer = document.getElementById('cert-qr-inner');
-    qrContainer.innerHTML = '';
-    new QRCode(qrContainer, {
-      text: verifyUrl,
-      width: 80, height: 80,
-      colorDark: '#1a1a2e', colorLight: '#ffffff',
+    // QR code
+    const qrBox = document.getElementById('o-qr-box');
+    qrBox.innerHTML = '';
+    new QRCode(qrBox, {
+      text: verifyUrl, width: 92, height: 92,
+      colorDark:'#0d1b3e', colorLight:'#ffffff',
       correctLevel: QRCode.CorrectLevel.M
     });
 
-    // Render preview
+    await new Promise(r => setTimeout(r, 500));
     await renderPreview();
 
-    // Save to log
-    saveToLog(currentCert);
-    loadLog();
+    saveLog(current);
+    renderLog();
   }
 
   async function renderPreview() {
-    await new Promise(r => setTimeout(r, 400)); // allow QR to render
     const certEl = document.getElementById('certificate');
-    const canvas = await html2canvas(certEl, { scale: 1, useCORS: true, backgroundColor: '#ffffff', logging: false });
-    const dataUrl = canvas.toDataURL('image/png');
+    const canvas = await html2canvas(certEl, {
+      scale: 0.5, useCORS: true, allowTaint: true,
+      backgroundColor: '#ffffff', logging: false
+    });
+    const img = new Image();
+    img.src = canvas.toDataURL('image/png');
+    img.style.width = '100%';
 
-    const container = document.getElementById('preview-container');
-    const inner = document.getElementById('preview-inner');
-    container.style.display = 'block';
-    inner.innerHTML = `<img src="${dataUrl}" style="display:block;max-width:100%;border-radius:10px;">`;
+    const box = document.getElementById('preview-box');
+    box.innerHTML = '';
+    box.appendChild(img);
+    box.style.display = 'block';
 
-    document.getElementById('placeholder-msg').style.display = 'none';
-    document.getElementById('preview-actions').style.display = 'flex';
+    document.getElementById('ph').style.display = 'none';
+    const pa = document.getElementById('prev-actions');
+    pa.style.display = 'flex';
   }
 
   async function downloadPDF() {
-    if (!currentCert) return;
-    const btn = document.querySelector('.btn-pdf');
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+    if (!current) return;
+    const btn = document.querySelector('.btn-dl');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating…';
     btn.disabled = true;
 
     await new Promise(r => setTimeout(r, 100));
     const certEl = document.getElementById('certificate');
-    const canvas = await html2canvas(certEl, { scale: 2, useCORS: true, backgroundColor: '#ffffff', logging: false });
-    const imgData = canvas.toDataURL('image/png');
+    const canvas = await html2canvas(certEl, {
+      scale: 2, useCORS: true, allowTaint: true,
+      backgroundColor: '#ffffff', logging: false
+    });
 
     const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-    pdf.addImage(imgData, 'PNG', 0, 0, 297, 210);
-    const filename = `BusinessBOX_Certificate_${currentCert.name.replace(/\s+/g,'_')}_${currentCert.certId}.pdf`;
-    pdf.save(filename);
+    const pdf = new jsPDF({ orientation:'landscape', unit:'mm', format:'a4' });
+    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 297, 210);
+    pdf.save('BusinessBOX_Certificate_' + current.name.replace(/\s+/g,'_') + '_' + current.id + '.pdf');
 
     btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download PDF';
     btn.disabled = false;
   }
 
   function resetForm() {
-    ['f-name','f-role','f-dept','f-start','f-end','f-note'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('preview-container').style.display = 'none';
-    document.getElementById('preview-actions').style.display = 'none';
-    document.getElementById('placeholder-msg').style.display = 'block';
-    currentCert = null;
+    ['f-name','f-start','f-end'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('preview-box').style.display = 'none';
+    document.getElementById('prev-actions').style.display = 'none';
+    document.getElementById('ph').style.display = 'block';
+    current = null;
   }
 
   // ── LOG ──
-  function saveToLog(cert) {
+  function saveLog(c) {
     const log = JSON.parse(localStorage.getItem('bb_certs') || '[]');
-    log.unshift({ ...cert, savedAt: new Date().toISOString() });
+    log.unshift(c);
     localStorage.setItem('bb_certs', JSON.stringify(log));
   }
 
-  function loadLog() {
+  function renderLog() {
     const log = JSON.parse(localStorage.getItem('bb_certs') || '[]');
-    const tbody = document.getElementById('log-body');
+    const tb = document.getElementById('log-body');
     if (!log.length) {
-      tbody.innerHTML = '<tr><td colspan="6" class="log-empty"><i class="fas fa-inbox" style="margin-right:.5rem"></i>No certificates issued yet.</td></tr>';
+      tb.innerHTML = '<tr><td colspan="5" class="log-empty"><i class="fas fa-inbox"></i> No certificates yet.</td></tr>';
       return;
     }
-    tbody.innerHTML = log.map(c => `
+    tb.innerHTML = log.map(c => `
       <tr>
-        <td><span class="cert-id-chip">${c.certId}</span></td>
+        <td><span class="id-chip">${c.id}</span></td>
         <td><strong>${c.name}</strong></td>
-        <td>${c.role}</td>
         <td>${c.start} – ${c.end}</td>
         <td>${c.issueDate}</td>
-        <td><button class="btn-reprint" onclick="reprintFromLog(${JSON.stringify(c).replace(/"/g,'&quot;')})"><i class="fas fa-redo" style="margin-right:.3rem"></i>Re-print</button></td>
-      </tr>
-    `).join('');
+        <td>
+          <button style="background:none;border:1.5px solid #e2e8f0;color:#6b7280;padding:.3rem .8rem;border-radius:6px;font-family:inherit;font-size:.8rem;font-weight:600;cursor:pointer;"
+            onclick='reprintCert(${JSON.stringify(c).replace(/'/g,"&#39;")})'>
+            <i class="fas fa-redo"></i> Re-print
+          </button>
+        </td>
+      </tr>`).join('');
   }
 
-  async function reprintFromLog(cert) {
-    document.getElementById('f-name').value = cert.name;
-    document.getElementById('f-role').value = cert.role;
-    document.getElementById('f-dept').value = cert.dept || '';
-    document.getElementById('f-note').value = cert.note || '';
-    // Re-generate
-    await generateCertificate();
+  async function reprintCert(c) {
+    document.getElementById('f-name').value  = c.name;
+    document.getElementById('f-start').value = c.rawStart || '';
+    document.getElementById('f-end').value   = c.rawEnd   || '';
+    await generateCert();
   }
 </script>
 </body>
