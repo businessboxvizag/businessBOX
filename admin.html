@@ -165,84 +165,74 @@
       font-family: 'Urbanist', Arial, sans-serif;
     }
 
-    /* Intern name — sits on the gold underline */
+    /* Intern name — centred in blank space between "PRESENTED TO" (43.6%) and body text (54.1%) */
     #o-name {
       position: absolute;
-      top: 47.2%;
+      top: 45.5%;
       left: 50%;
       transform: translateX(-50%);
       font-family: 'Cinzel', 'Georgia', serif;
       font-size: 44px;
       font-weight: 700;
       color: #0d1b3e;
-      letter-spacing: 1.5px;
+      letter-spacing: 2px;
       white-space: nowrap;
       text-align: center;
       line-height: 1;
     }
 
-    /* Duration text — under DURATION icon/label column */
+    /* Duration dates — centred under DURATION label (label centre x=25.9%) */
     #o-duration {
       position: absolute;
-      top: 67.5%;
-      left: 21%;
+      top: 67%;
+      left: 25.9%;
       transform: translateX(-50%);
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
       color: #0d1b3e;
       text-align: center;
       white-space: nowrap;
     }
 
-    /* White cover over DEPARTMENT column so QR looks clean */
-    #o-dept-cover {
-      position: absolute;
-      top: 58%;
-      left: 36%;
-      width: 11%;
-      height: 12%;
-      background: white;
-    }
-
-    /* QR code block — centred in DEPARTMENT column */
+    /* QR code — right side empty white space (after PERFORMANCE column) */
     #o-qr-wrap {
       position: absolute;
-      top: 59%;
-      left: 42%;
+      top: 57%;
+      left: 78%;
       transform: translateX(-50%);
       display: flex; flex-direction: column; align-items: center; gap: 4px;
     }
     #o-qr-box {
-      width: 100px; height: 100px;
+      width: 105px; height: 105px;
       background: white;
-      border: 1.5px solid #ddd;
-      border-radius: 6px;
+      border: 1.5px solid #ccc;
+      border-radius: 5px;
       padding: 3px;
       display: flex; align-items: center; justify-content: center;
     }
-    #o-qr-box canvas, #o-qr-box img { width: 92px !important; height: 92px !important; }
+    #o-qr-box canvas, #o-qr-box img { width: 97px !important; height: 97px !important; }
     #o-qr-label {
       font-size: 9px; font-weight: 700; color: #555;
       letter-spacing: .8px; text-transform: uppercase;
     }
 
-    /* Certificate ID value — bottom-left */
+    /* Certificate ID value — left-aligned under "CERTIFICATE ID" label (label starts at 15.6%) */
     #o-cert-id {
       position: absolute;
-      top: 90%;
-      left: 14.5%;
-      font-size: 14px;
+      top: 87%;
+      left: 15.6%;
+      font-size: 13px;
       font-weight: 700;
       color: #c9a84c;
       letter-spacing: .5px;
     }
 
-    /* Date of Issue value — bottom-right */
+    /* Date of Issue value — left-aligned under calendar icon (icon at 67.7%) */
     #o-date {
       position: absolute;
-      top: 90%;
-      left: 77.5%;
-      font-size: 14px;
+      top: 87%;
+      left: 68%;
+      font-size: 13px;
       font-weight: 700;
       color: #0d1b3e;
     }
@@ -346,7 +336,6 @@
   <div id="certificate">
     <div id="o-name">INTERN NAME</div>
     <div id="o-duration">01 Jan 2025 – 31 Mar 2025</div>
-    <div id="o-dept-cover"></div>
     <div id="o-qr-wrap">
       <div id="o-qr-box"></div>
       <div id="o-qr-label">Scan to Verify</div>
@@ -439,7 +428,7 @@
     const qrBox = document.getElementById('o-qr-box');
     qrBox.innerHTML = '';
     new QRCode(qrBox, {
-      text: verifyUrl, width: 92, height: 92,
+      text: verifyUrl, width: 97, height: 97,
       colorDark:'#0d1b3e', colorLight:'#ffffff',
       correctLevel: QRCode.CorrectLevel.M
     });
