@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Certificate | businessBOX</title>
+  <link rel="icon" href="favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --brand: #29ABD4;
+      --brand2: #1a8aac;
+      --dark: #1a1a2e;
+      --gold: #c9a84c;
+      --gold2: #e8c97a;
+      --green: #10b981;
+      --green-light: #d1fae5;
+      --white: #ffffff;
+      --gray: #6b7280;
+      --light: #f8fafc;
+      --border: #e2e8f0;
+    }
+    body {
+      font-family: 'Urbanist', sans-serif;
+      background: linear-gradient(135deg, var(--dark) 0%, #16213e 60%, #0f3460 100%);
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 2rem 1rem;
+      color: var(--dark);
+    }
+
+    .verify-card {
+      background: var(--white);
+      border-radius: 24px;
+      max-width: 560px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    }
+
+    /* Top band */
+    .verify-top {
+      background: linear-gradient(135deg, var(--green) 0%, #059669 100%);
+      padding: 2rem 2.5rem;
+      display: flex; align-items: center; gap: 1.2rem;
+    }
+    .verify-top.invalid {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    }
+    .verify-top .icon-circle {
+      width: 60px; height: 60px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.6rem; color: white;
+    }
+    .verify-top .status-text { color: white; }
+    .verify-top .status-text h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: .2rem; }
+    .verify-top .status-text p { font-size: .9rem; opacity: .9; }
+
+    .verify-body { padding: 2rem 2.5rem 2.5rem; }
+
+    .brand-row {
+      display: flex; align-items: center; gap: .8rem;
+      margin-bottom: 1.8rem; padding-bottom: 1.2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand-row img { height: 36px; }
+    .brand-row .brand-name { font-size: 1.1rem; font-weight: 800; color: var(--dark); }
+    .brand-row .brand-name span { color: var(--brand); }
+    .brand-row .verified-tag {
+      margin-left: auto;
+      background: var(--green-light); color: var(--green);
+      font-size: .75rem; font-weight: 700; padding: .3rem .8rem;
+      border-radius: 20px; display: flex; align-items: center; gap: .3rem;
+    }
+
+    .cert-details { }
+    .detail-row {
+      display: flex; gap: 1rem;
+      padding: .9rem 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-icon {
+      width: 36px; height: 36px;
+      background: var(--light); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--brand); font-size: .9rem; flex-shrink: 0; margin-top: .1rem;
+    }
+    .detail-content { flex: 1; }
+    .detail-label { font-size: .75rem; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: .05em; margin-bottom: .15rem; }
+    .detail-value { font-size: 1rem; font-weight: 700; color: var(--dark); }
+
+    .cert-id-chip {
+      background: #eff6ff; color: #1d4ed8;
+      font-size: .85rem; font-weight: 700; padding: .25rem .7rem;
+      border-radius: 6px; font-family: monospace; display: inline-block;
+    }
+
+    .verify-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--border);
+      font-size: .8rem; color: var(--gray); line-height: 1.6;
+    }
+    .verify-footer a { color: var(--brand); text-decoration: none; font-weight: 600; }
+    .verify-footer a:hover { text-decoration: underline; }
+
+    /* Invalid state */
+    .invalid-msg {
+      text-align: center; padding: 2rem;
+    }
+    .invalid-msg i { font-size: 3rem; color: #ef4444; margin-bottom: 1rem; display: block; }
+    .invalid-msg h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: .5rem; }
+    .invalid-msg p { color: var(--gray); font-size: .95rem; }
+
+    /* Bottom nav */
+    .back-link {
+      margin-top: 1.5rem;
+      color: rgba(255,255,255,0.7);
+      font-size: .88rem;
+      text-decoration: none;
+      display: flex; align-items: center; gap: .5rem;
+      transition: color .2s;
+    }
+    .back-link:hover { color: white; }
+  </style>
+</head>
+<body>
+
+<div class="verify-card" id="card">
+  <!-- JS fills this -->
+</div>
+
+<a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to businessBOX</a>
+
+<script>
+  function getParam(name) {
+    return new URLSearchParams(window.location.search).get(name) || '';
+  }
+
+  const id    = getParam('id');
+  const name  = getParam('name');
+  const role  = getParam('role');
+  const dept  = getParam('dept');
+  const start = getParam('start');
+  const end   = getParam('end');
+
+  const card = document.getElementById('card');
+  const valid = id && name && start && end;
+
+  if (valid) {
+    card.innerHTML = `
+      <div class="verify-top">
+        <div class="icon-circle"><i class="fas fa-check"></i></div>
+        <div class="status-text">
+          <h2>Certificate Verified ✓</h2>
+          <p>This is an authentic businessBOX internship certificate.</p>
+        </div>
+      </div>
+      <div class="verify-body">
+        <div class="brand-row">
+          <img src="bblogo.png" alt="businessBOX" onerror="this.style.display='none'">
+          <div class="brand-name">business<span>BOX</span></div>
+          <div class="verified-tag"><i class="fas fa-shield-check"></i> Verified</div>
+        </div>
+        <div class="cert-details">
+          <div class="detail-row">
+            <div class="detail-icon"><i class="fas fa-user-graduate"></i></div>
+            <div class="detail-content">
+              <div class="detail-label">Intern Name</div>
+              <div class="detail-value">${escHtml(name)}</div>
+            </div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-icon"><i class="fas fa-briefcase"></i></div>
+            <div class="detail-content">
+              <div class="detail-label">Internship Role</div>
+              <div class="detail-value">${escHtml(role)}${dept ? ' · ' + escHtml(dept) : ''}</div>
+            </div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-icon"><i class="fas fa-calendar-alt"></i></div>
+            <div class="detail-content">
+              <div class="detail-label">Internship Period</div>
+              <div class="detail-value">${escHtml(start)} – ${escHtml(end)}</div>
+            </div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-icon"><i class="fas fa-id-badge"></i></div>
+            <div class="detail-content">
+              <div class="detail-label">Certificate ID</div>
+              <div class="detail-value"><span class="cert-id-chip">${escHtml(id)}</span></div>
+            </div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-icon"><i class="fas fa-building"></i></div>
+            <div class="detail-content">
+              <div class="detail-label">Issued By</div>
+              <div class="detail-value">businessBOX High-Growth Agency, Visakhapatnam</div>
+            </div>
+          </div>
+        </div>
+        <div class="verify-footer">
+          This certificate was issued by businessBOX and is digitally verifiable.<br>
+          Visit <a href="https://businessboxvizag.com">businessboxvizag.com</a> for more information.
+        </div>
+      </div>
+    `;
+  } else {
+    card.innerHTML = `
+      <div class="verify-top invalid">
+        <div class="icon-circle"><i class="fas fa-times"></i></div>
+        <div class="status-text">
+          <h2>Invalid Certificate</h2>
+          <p>This certificate could not be verified.</p>
+        </div>
+      </div>
+      <div class="verify-body">
+        <div class="invalid-msg">
+          <i class="fas fa-exclamation-triangle"></i>
+          <h3>Certificate Not Found</h3>
+          <p>The QR code you scanned does not contain valid certificate data, or the certificate may have been tampered with. Please contact businessBOX directly.</p>
+        </div>
+      </div>
+    `;
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+</script>
+</body>
+</html>
