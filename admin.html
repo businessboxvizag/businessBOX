@@ -165,10 +165,10 @@
       font-family: 'Urbanist', Arial, sans-serif;
     }
 
-    /* Intern name — centred in blank space between "PRESENTED TO" (43.6%) and body text (54.1%) */
+    /* Intern name — baseline sits on the horizontal underline at y=52.0% of cert */
     #o-name {
       position: absolute;
-      top: 45.5%;
+      top: 48.5%;
       left: 50%;
       transform: translateX(-50%);
       font-family: 'Cinzel', 'Georgia', serif;
@@ -181,17 +181,28 @@
       line-height: 1;
     }
 
-    /* Duration dates — centred under DURATION label (label centre x=25.9%) */
+    /* Duration dates — right beside calendar icon (icon right edge at x≈24.3%, row y≈63.5-64.4%) */
     #o-duration {
       position: absolute;
-      top: 67%;
-      left: 25.9%;
-      transform: translateX(-50%);
-      font-size: 14px;
+      top: 63.8%;
+      left: 25.5%;
+      font-size: 13px;
       font-weight: 700;
       color: #0d1b3e;
-      text-align: center;
       white-space: nowrap;
+    }
+
+    /* Designation — centred under DEPARTMENT label (centre x=38.8%, below label at y≈65%) */
+    #o-dept {
+      position: absolute;
+      top: 67%;
+      left: 38.8%;
+      transform: translateX(-50%);
+      font-size: 13px;
+      font-weight: 700;
+      color: #0d1b3e;
+      white-space: nowrap;
+      text-align: center;
     }
 
     /* QR code — right side empty white space (after PERFORMANCE column) */
@@ -216,18 +227,20 @@
       letter-spacing: .8px; text-transform: uppercase;
     }
 
-    /* Certificate ID value — left-aligned under "CERTIFICATE ID" label (label starts at 15.6%) */
+    /* Certificate ID value — centered under "CERTIFICATE ID" label (centre x=18.7%) */
     #o-cert-id {
       position: absolute;
-      top: 87%;
-      left: 15.6%;
+      top: 87.5%;
+      left: 18.7%;
+      transform: translateX(-50%);
       font-size: 13px;
       font-weight: 700;
       color: #c9a84c;
       letter-spacing: .5px;
+      text-align: center;
     }
 
-    /* Date of Issue value — left-aligned under calendar icon (icon at 67.7%) */
+    /* Date of Issue value — left-aligned under calendar icon (x=68%) */
     #o-date {
       position: absolute;
       top: 87%;
@@ -286,6 +299,10 @@
           <label>Full Name <span class="req">*</span></label>
           <input type="text" id="f-name" placeholder="e.g. Ravi Kumar Sharma">
         </div>
+        <div class="form-field">
+          <label>Designation / Role <span class="req">*</span></label>
+          <input type="text" id="f-dept" placeholder="e.g. Digital Marketing Intern">
+        </div>
         <div class="date-row">
           <div class="form-field">
             <label>Start Date <span class="req">*</span></label>
@@ -321,10 +338,10 @@
       <h3><i class="fas fa-history" style="color:var(--gold)"></i> Issued Certificates</h3>
       <table class="log-table">
         <thead>
-          <tr><th>Cert ID</th><th>Name</th><th>Period</th><th>Issued On</th><th></th></tr>
+          <tr><th>Cert ID</th><th>Name</th><th>Designation</th><th>Period</th><th>Issued On</th><th></th></tr>
         </thead>
         <tbody id="log-body">
-          <tr><td colspan="5" class="log-empty"><i class="fas fa-inbox"></i> No certificates yet.</td></tr>
+          <tr><td colspan="6" class="log-empty"><i class="fas fa-inbox"></i> No certificates yet.</td></tr>
         </tbody>
       </table>
     </div>
@@ -336,6 +353,7 @@
   <div id="certificate">
     <div id="o-name">INTERN NAME</div>
     <div id="o-duration">01 Jan 2025 – 31 Mar 2025</div>
+    <div id="o-dept">Designation</div>
     <div id="o-qr-wrap">
       <div id="o-qr-box"></div>
       <div id="o-qr-label">Scan to Verify</div>
@@ -397,10 +415,11 @@
   // ── GENERATE ──
   async function generateCert() {
     const name  = document.getElementById('f-name').value.trim();
+    const dept  = document.getElementById('f-dept').value.trim();
     const start = document.getElementById('f-start').value;
     const end   = document.getElementById('f-end').value;
 
-    if (!name || !start || !end) { alert('Please fill in Name, Start Date and End Date.'); return; }
+    if (!name || !dept || !start || !end) { alert('Please fill in all fields.'); return; }
     if (new Date(start) > new Date(end)) { alert('Start date cannot be after end date.'); return; }
 
     const id        = genId();
@@ -409,13 +428,15 @@
       (window.location.pathname.replace('admin.html','')) +
       'verify.html?id=' + encodeURIComponent(id) +
       '&name=' + encodeURIComponent(name) +
+      '&dept=' + encodeURIComponent(dept) +
       '&start=' + encodeURIComponent(fmt(start)) +
       '&end='   + encodeURIComponent(fmt(end));
 
-    current = { id, name, start: fmt(start), end: fmt(end), rawStart: start, rawEnd: end, issueDate, verifyUrl };
+    current = { id, name, dept, start: fmt(start), end: fmt(end), rawStart: start, rawEnd: end, issueDate, verifyUrl };
 
     // Populate overlays
     document.getElementById('o-name').textContent     = name.toUpperCase();
+    document.getElementById('o-dept').textContent     = dept;
     document.getElementById('o-duration').textContent = fmt(start) + ' – ' + fmt(end);
     document.getElementById('o-cert-id').textContent  = id;
     document.getElementById('o-date').textContent     = issueDate;
@@ -483,7 +504,7 @@
   }
 
   function resetForm() {
-    ['f-name','f-start','f-end'].forEach(id => document.getElementById(id).value = '');
+    ['f-name','f-dept','f-start','f-end'].forEach(id => document.getElementById(id).value = '');
     document.getElementById('preview-box').style.display = 'none';
     document.getElementById('prev-actions').style.display = 'none';
     document.getElementById('ph').style.display = 'block';
@@ -508,6 +529,7 @@
       <tr>
         <td><span class="id-chip">${c.id}</span></td>
         <td><strong>${c.name}</strong></td>
+        <td>${c.dept || '—'}</td>
         <td>${c.start} – ${c.end}</td>
         <td>${c.issueDate}</td>
         <td>
@@ -521,6 +543,7 @@
 
   async function reprintCert(c) {
     document.getElementById('f-name').value  = c.name;
+    document.getElementById('f-dept').value  = c.dept || '';
     document.getElementById('f-start').value = c.rawStart || '';
     document.getElementById('f-end').value   = c.rawEnd   || '';
     await generateCert();
