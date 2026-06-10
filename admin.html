@@ -181,22 +181,24 @@
       line-height: 1;
     }
 
-    /* Duration dates — right beside calendar icon (icon right edge at x≈24.3%, row y≈63.5-64.4%) */
+    /* Duration dates — centered in DURATION column, below icon+label row */
     #o-duration {
       position: absolute;
-      top: 63.8%;
-      left: 25.5%;
+      top: 67%;
+      left: 24%;
+      transform: translateX(-50%);
       font-size: 13px;
       font-weight: 700;
       color: #0d1b3e;
       white-space: nowrap;
+      text-align: center;
     }
 
-    /* Designation — centred under DEPARTMENT label (centre x=38.8%, below label at y≈65%) */
+    /* Designation — centered under DEPARTMENT label text (label center at 44%) */
     #o-dept {
       position: absolute;
       top: 67%;
-      left: 38.8%;
+      left: 44%;
       transform: translateX(-50%);
       font-size: 13px;
       font-weight: 700;
@@ -227,11 +229,11 @@
       letter-spacing: .8px; text-transform: uppercase;
     }
 
-    /* Certificate ID value — centered under "CERTIFICATE ID" label (centre x=18.7%) */
+    /* Certificate ID value — centered under "CERTIFICATE ID" label (label centre at 21.5%) */
     #o-cert-id {
       position: absolute;
       top: 87.5%;
-      left: 18.7%;
+      left: 21.5%;
       transform: translateX(-50%);
       font-size: 13px;
       font-weight: 700;
@@ -240,14 +242,17 @@
       text-align: center;
     }
 
-    /* Date of Issue value — left-aligned under calendar icon (x=68%) */
+    /* Date of Issue value — centered under "DATE OF ISSUE" label (label centre at 79%) */
     #o-date {
       position: absolute;
-      top: 87%;
-      left: 68%;
+      top: 87.5%;
+      left: 79%;
+      transform: translateX(-50%);
       font-size: 13px;
       font-weight: 700;
       color: #0d1b3e;
+      text-align: center;
+      white-space: nowrap;
     }
   </style>
 </head>
