@@ -1,558 +1,398 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>businessBOX | Admin — Certificate Issuer</title>
-  <link rel="icon" href="favicon.svg">
-  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --brand: #29ABD4; --brand2: #1a8aac;
-      --dark: #1a1a2e; --gold: #c9a84c;
-      --white: #ffffff; --gray: #6b7280;
-      --light: #f8fafc; --border: #e2e8f0; --red: #ef4444;
-    }
-    body { font-family: 'Urbanist', sans-serif; background: var(--light); color: var(--dark); min-height: 100vh; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BusinessBOX – Certificate Admin Portal</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #0d1b3e;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+  }
+  h1 {
+    color: #c9a84c;
+    font-size: 22px;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+  .subtitle { color: #aaa; font-size: 13px; margin-bottom: 24px; }
 
-    /* ── LOGIN ── */
-    #login-screen {
-      min-height: 100vh; display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(135deg, #0d1b3e 0%, #16213e 60%, #0f3460 100%);
-    }
-    .login-card {
-      background: var(--white); border-radius: 20px; padding: 3rem 2.5rem;
-      width: 100%; max-width: 420px; box-shadow: 0 25px 60px rgba(0,0,0,0.4); text-align: center;
-    }
-    .login-card img.logo { height: 52px; margin-bottom: 1.5rem; }
-    .login-card h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: .3rem; }
-    .login-card p { color: var(--gray); font-size: .95rem; margin-bottom: 2rem; }
-    .login-badge {
-      display: inline-flex; align-items: center; gap: .4rem;
-      background: #fef3c7; color: #92400e; font-size: .78rem; font-weight: 600;
-      padding: .3rem .8rem; border-radius: 20px; margin-bottom: 1.5rem;
-    }
-    .inp-group { text-align: left; margin-bottom: 1.2rem; }
-    .inp-group label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: .4rem; }
-    .inp-group input {
-      width: 100%; padding: .85rem 1rem; border: 1.5px solid var(--border);
-      border-radius: 10px; font-family: inherit; font-size: .95rem; outline: none; transition: border-color .2s;
-    }
-    .inp-group input:focus { border-color: var(--brand); }
-    .eye-wrap { position: relative; }
-    .eye-wrap input { padding-right: 2.8rem; }
-    .eye-btn { position: absolute; right: .9rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--gray); }
-    .btn-login {
-      width: 100%; padding: .95rem; background: linear-gradient(135deg, var(--brand), var(--brand2));
-      color: white; border: none; border-radius: 10px; font-family: inherit;
-      font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: .5rem; transition: opacity .2s;
-    }
-    .btn-login:hover { opacity: .9; }
-    .login-error { color: var(--red); font-size: .88rem; margin-top: .8rem; display: none; }
+  /* LOGIN */
+  #login-screen {
+    background: #fff;
+    border-radius: 12px;
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 380px;
+    margin-top: 80px;
+    text-align: center;
+  }
+  #login-screen h2 { color: #0d1b3e; margin-bottom: 20px; }
+  #login-screen input {
+    width: 100%; padding: 10px 14px;
+    border: 1px solid #ccc; border-radius: 6px;
+    margin-bottom: 12px; font-size: 14px;
+  }
+  #login-screen button {
+    width: 100%; padding: 11px;
+    background: #0d1b3e; color: #c9a84c;
+    border: none; border-radius: 6px;
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    letter-spacing: 1px;
+  }
+  #login-err { color: red; font-size: 13px; margin-top: 8px; }
 
-    /* ── DASHBOARD ── */
-    #dashboard { display: none; min-height: 100vh; }
-    .topbar {
-      background: var(--white); border-bottom: 1px solid var(--border);
-      padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between;
-      position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    }
-    .topbar-left { display: flex; align-items: center; gap: .8rem; }
-    .topbar-left img { height: 38px; }
-    .topbar-left span { font-weight: 700; font-size: 1.05rem; }
-    .topbar-badge { background: var(--brand); color: white; font-size: .72rem; font-weight: 700; padding: .2rem .6rem; border-radius: 20px; }
-    .btn-logout {
-      background: none; border: 1.5px solid var(--border); color: var(--gray);
-      padding: .5rem 1.1rem; border-radius: 8px; font-family: inherit; font-size: .88rem;
-      font-weight: 600; cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: .5rem;
-    }
-    .btn-logout:hover { border-color: var(--red); color: var(--red); }
+  /* MAIN PANEL */
+  #main-panel { display: none; width: 100%; max-width: 1200px; }
 
-    .main { max-width: 1200px; margin: 0 auto; padding: 2.5rem 1.5rem; }
-    .main h1 { font-size: 1.9rem; font-weight: 800; margin-bottom: .3rem; }
-    .main .subtitle { color: var(--gray); margin-bottom: 2.5rem; }
+  .top-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px;
+  }
+  .logout-btn {
+    background: none; border: 1px solid #c9a84c; color: #c9a84c;
+    padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px;
+  }
 
-    .layout { display: grid; grid-template-columns: 360px 1fr; gap: 2rem; align-items: start; }
+  .panel-row {
+    display: flex; gap: 20px; align-items: flex-start;
+    flex-wrap: wrap;
+  }
 
-    .card {
-      background: var(--white); border-radius: 16px; padding: 2rem;
-      border: 1px solid var(--border); box-shadow: 0 4px 16px rgba(0,0,0,0.05);
-    }
-    .card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; align-items: center; gap: .6rem; }
-    .card h3 i { color: var(--brand); }
+  /* FORM */
+  .form-card {
+    background: #fff; border-radius: 10px; padding: 24px;
+    min-width: 280px; flex: 0 0 280px;
+  }
+  .form-card h3 { color: #0d1b3e; margin-bottom: 16px; font-size: 16px; }
+  .form-card label { display: block; font-size: 12px; color: #555; margin-bottom: 4px; margin-top: 12px; }
+  .form-card input {
+    width: 100%; padding: 8px 10px;
+    border: 1px solid #ccc; border-radius: 5px; font-size: 14px;
+  }
+  .gen-btn {
+    margin-top: 18px; width: 100%; padding: 11px;
+    background: #0d1b3e; color: #c9a84c;
+    border: none; border-radius: 6px;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    letter-spacing: 1px;
+  }
+  .dl-btn {
+    margin-top: 10px; width: 100%; padding: 11px;
+    background: #c9a84c; color: #0d1b3e;
+    border: none; border-radius: 6px;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    display: none;
+  }
+  .cert-id-display {
+    margin-top: 12px; font-size: 12px; color: #555;
+    background: #f5f5f5; padding: 6px 10px; border-radius: 4px;
+    font-family: monospace; display: none;
+  }
 
-    .form-field { margin-bottom: 1.2rem; }
-    .form-field label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: .4rem; }
-    .form-field label .req { color: var(--red); }
-    .form-field input {
-      width: 100%; padding: .8rem 1rem; border: 1.5px solid var(--border); border-radius: 10px;
-      font-family: inherit; font-size: .95rem; outline: none; transition: border-color .2s;
-    }
-    .form-field input:focus { border-color: var(--brand); }
-    .date-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .btn-gen {
-      width: 100%; padding: .95rem; background: linear-gradient(135deg, var(--brand), var(--brand2));
-      color: white; border: none; border-radius: 10px; font-family: inherit; font-size: 1rem;
-      font-weight: 700; cursor: pointer; margin-top: .5rem; transition: all .2s;
-      display: flex; align-items: center; justify-content: center; gap: .6rem;
-    }
-    .btn-gen:hover { opacity: .9; transform: translateY(-1px); }
+  /* CERTIFICATE PREVIEW */
+  .cert-wrap { flex: 1; min-width: 300px; overflow-x: auto; }
+  .cert-wrap h3 { color: #c9a84c; margin-bottom: 10px; font-size: 14px; }
 
-    /* Preview */
-    .preview-wrap { }
-    .preview-wrap h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 1.2rem; display: flex; align-items: center; gap: .6rem; }
-    .preview-wrap h3 i { color: var(--brand); }
-    .preview-placeholder {
-      background: var(--light); border: 2px dashed var(--border);
-      border-radius: 12px; padding: 5rem 2rem; text-align: center; color: var(--gray);
-    }
-    .preview-placeholder i { font-size: 3rem; color: var(--border); display: block; margin-bottom: 1rem; }
+  #cert-container {
+    position: relative;
+    width: 1024px;
+    height: 683px;
+    overflow: hidden;
+  }
+  #cert-bg {
+    position: absolute; top: 0; left: 0;
+    width: 1024px; height: 683px;
+    display: block;
+  }
 
-    #preview-box {
-      display: none; border-radius: 10px; overflow: hidden;
-      border: 1.5px solid var(--border); line-height: 0;
-    }
-    #preview-box img { width: 100%; display: block; }
+  /* TEXT OVERLAYS */
+  .overlay {
+    position: absolute;
+    transform: translateX(-50%);
+    pointer-events: none;
+    line-height: 1.2;
+  }
+  #o-name {
+    top: 38.2%;
+    left: 44.8%;
+    font-family: 'Cinzel', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #0d1b3e;
+    letter-spacing: 2px;
+    white-space: nowrap;
+  }
+  #o-duration {
+    top: 68%;
+    left: 26%;
+    font-size: 11px;
+    font-weight: 700;
+    color: #0d1b3e;
+    text-align: center;
+    max-width: 160px;
+    white-space: normal;
+    transform: translateX(-50%);
+  }
+  #o-role {
+    top: 68%;
+    left: 44%;
+    font-size: 11px;
+    font-weight: 700;
+    color: #0d1b3e;
+    text-align: center;
+    max-width: 160px;
+    white-space: normal;
+    transform: translateX(-50%);
+  }
+  #o-cert-id {
+    top: 87%;
+    left: 21.6%;
+    font-size: 11px;
+    font-weight: 700;
+    color: #c9a84c;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  #o-date {
+    top: 87%;
+    left: 77.5%;
+    font-size: 11px;
+    font-weight: 700;
+    color: #0d1b3e;
+    white-space: nowrap;
+  }
 
-    .preview-actions { display: none; gap: 1rem; margin-top: 1.2rem; }
-    .btn-dl {
-      flex: 1; padding: .85rem; background: var(--dark); color: white; border: none;
-      border-radius: 10px; font-family: inherit; font-size: .92rem; font-weight: 700;
-      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: .5rem; transition: background .2s;
-    }
-    .btn-dl:hover { background: #333; }
-    .btn-reset {
-      flex: 1; padding: .85rem; background: var(--light); color: var(--dark);
-      border: 1.5px solid var(--border); border-radius: 10px; font-family: inherit;
-      font-size: .92rem; font-weight: 600; cursor: pointer; transition: all .2s;
-      display: flex; align-items: center; justify-content: center; gap: .5rem;
-    }
-    .btn-reset:hover { border-color: var(--brand); color: var(--brand); }
-
-    /* Log */
-    .log-card { margin-top: 2rem; }
-    .log-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
-    .log-table th {
-      background: var(--light); padding: .75rem 1rem; text-align: left;
-      font-weight: 700; font-size: .78rem; text-transform: uppercase;
-      letter-spacing: .05em; color: var(--gray); border-bottom: 1px solid var(--border);
-    }
-    .log-table td { padding: .85rem 1rem; border-bottom: 1px solid var(--border); }
-    .log-table tr:last-child td { border-bottom: none; }
-    .log-table tr:hover td { background: var(--light); }
-    .id-chip {
-      background: #eff6ff; color: #1d4ed8; font-size: .78rem;
-      font-weight: 700; padding: .2rem .6rem; border-radius: 6px; font-family: monospace;
-    }
-    .log-empty { text-align: center; color: var(--gray); padding: 2rem; font-size: .9rem; }
-
-    /* ── HIDDEN CERTIFICATE ──
-       Native render size 1600×1067 (exactly 0.5× of 3200×2134 source PDF)
-       All overlay positions are % of this box.                           */
-    #cert-stage {
-      position: fixed; left: -9999px; top: 0;
-      width: 1600px; height: 1067px;
-    }
-    #certificate {
-      width: 1600px; height: 1067px;
-      position: relative; overflow: hidden;
-      background: url('cert_template.png') center/cover no-repeat;
-      font-family: 'Urbanist', Arial, sans-serif;
-    }
-
-    /* Intern name — baseline sits on the horizontal underline at y=52.0% of cert */
-    #o-name {
-      position: absolute;
-      top: 48.5%;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'Cinzel', 'Georgia', serif;
-      font-size: 44px;
-      font-weight: 700;
-      color: #0d1b3e;
-      letter-spacing: 2px;
-      white-space: nowrap;
-      text-align: center;
-      line-height: 1;
-    }
-
-    /* Duration dates — centered in DURATION column, below icon+label row */
-    #o-duration {
-      position: absolute;
-      top: 67%;
-      left: 24%;
-      transform: translateX(-50%);
-      font-size: 13px;
-      font-weight: 700;
-      color: #0d1b3e;
-      white-space: nowrap;
-      text-align: center;
-    }
-
-    /* Designation — centered under DEPARTMENT label text (label center at 44%) */
-    #o-dept {
-      position: absolute;
-      top: 67%;
-      left: 44%;
-      transform: translateX(-50%);
-      font-size: 13px;
-      font-weight: 700;
-      color: #0d1b3e;
-      white-space: nowrap;
-      text-align: center;
-    }
-
-    /* QR code — right side empty white space (after PERFORMANCE column) */
-    #o-qr-wrap {
-      position: absolute;
-      top: 57%;
-      left: 78%;
-      transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 4px;
-    }
-    #o-qr-box {
-      width: 105px; height: 105px;
-      background: white;
-      border: 1.5px solid #ccc;
-      border-radius: 5px;
-      padding: 3px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    #o-qr-box canvas, #o-qr-box img { width: 97px !important; height: 97px !important; }
-    #o-qr-label {
-      font-size: 9px; font-weight: 700; color: #555;
-      letter-spacing: .8px; text-transform: uppercase;
-    }
-
-    /* Certificate ID value — centered under "CERTIFICATE ID" label (label centre at 21.5%) */
-    #o-cert-id {
-      position: absolute;
-      top: 87.5%;
-      left: 21.5%;
-      transform: translateX(-50%);
-      font-size: 13px;
-      font-weight: 700;
-      color: #c9a84c;
-      letter-spacing: .5px;
-      text-align: center;
-    }
-
-    /* Date of Issue value — centered under "DATE OF ISSUE" label (label centre at 79%) */
-    #o-date {
-      position: absolute;
-      top: 87.5%;
-      left: 79%;
-      transform: translateX(-50%);
-      font-size: 13px;
-      font-weight: 700;
-      color: #0d1b3e;
-      text-align: center;
-      white-space: nowrap;
-    }
-  </style>
+  /* ISSUED LOG */
+  .log-card {
+    background: #fff; border-radius: 10px; padding: 20px;
+    margin-top: 20px;
+  }
+  .log-card h3 { color: #0d1b3e; margin-bottom: 12px; font-size: 15px; }
+  #cert-log { font-size: 12px; }
+  #cert-log table { width: 100%; border-collapse: collapse; }
+  #cert-log th { background: #0d1b3e; color: #c9a84c; padding: 8px; text-align: left; }
+  #cert-log td { padding: 7px 8px; border-bottom: 1px solid #eee; }
+  #cert-log tr:hover td { background: #f9f9f9; }
+  .no-log { color: #aaa; font-style: italic; }
+  .scale-hint { color: #888; font-size: 11px; margin-top: 6px; }
+</style>
 </head>
 <body>
 
+<h1>BusinessBOX Admin Portal</h1>
+<p class="subtitle">Internship Certificate Issuance System</p>
+
 <!-- LOGIN -->
 <div id="login-screen">
-  <div class="login-card">
-    <img src="bblogo.png" alt="businessBOX" class="logo" onerror="this.style.display='none'">
-    <div class="login-badge"><i class="fas fa-lock"></i> Admin Access Only</div>
-    <h2>Admin Portal</h2>
-    <p>Sign in to issue internship certificates</p>
-    <div class="inp-group">
-      <label>Email</label>
-      <input type="email" id="inp-email" placeholder="your@email.com">
-    </div>
-    <div class="inp-group">
-      <label>Password</label>
-      <div class="eye-wrap">
-        <input type="password" id="inp-pwd" placeholder="••••••••">
-        <button class="eye-btn" onclick="togglePwd()" type="button" id="eye-ic"><i class="fas fa-eye"></i></button>
-      </div>
-    </div>
-    <button class="btn-login" onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> Sign In</button>
-    <div class="login-error" id="login-err"><i class="fas fa-exclamation-circle"></i> Invalid credentials.</div>
-  </div>
+  <h2>🔐 Admin Login</h2>
+  <input type="email" id="l-email" placeholder="Email address" />
+  <input type="password" id="l-pass" placeholder="Password" />
+  <button onclick="doLogin()">LOGIN</button>
+  <div id="login-err"></div>
 </div>
 
-<!-- DASHBOARD -->
-<div id="dashboard">
-  <div class="topbar">
-    <div class="topbar-left">
-      <img src="bblogo.png" alt="businessBOX" onerror="this.style.display='none'">
-      <span>businessBOX</span>
-      <span class="topbar-badge">Admin</span>
-    </div>
-    <button class="btn-logout" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+<!-- MAIN PANEL -->
+<div id="main-panel">
+  <div class="top-bar">
+    <div style="color:#c9a84c; font-size:16px; font-weight:600;">📋 Issue Certificate</div>
+    <button class="logout-btn" onclick="doLogout()">Logout</button>
   </div>
 
-  <div class="main">
-    <h1>Certificate Issuer</h1>
-    <p class="subtitle">Generate internship completion certificates for your interns.</p>
+  <div class="panel-row">
+    <!-- FORM -->
+    <div class="form-card">
+      <h3>Intern Details</h3>
 
-    <div class="layout">
-      <!-- Form -->
-      <div class="card">
-        <h3><i class="fas fa-user-graduate"></i> Intern Details</h3>
-        <div class="form-field">
-          <label>Full Name <span class="req">*</span></label>
-          <input type="text" id="f-name" placeholder="e.g. Ravi Kumar Sharma">
-        </div>
-        <div class="form-field">
-          <label>Designation / Role <span class="req">*</span></label>
-          <input type="text" id="f-dept" placeholder="e.g. Digital Marketing Intern">
-        </div>
-        <div class="date-row">
-          <div class="form-field">
-            <label>Start Date <span class="req">*</span></label>
-            <input type="date" id="f-start">
-          </div>
-          <div class="form-field">
-            <label>End Date <span class="req">*</span></label>
-            <input type="date" id="f-end">
-          </div>
-        </div>
-        <button class="btn-gen" onclick="generateCert()">
-          <i class="fas fa-certificate"></i> Generate Certificate
-        </button>
-      </div>
+      <label>Full Name</label>
+      <input type="text" id="f-name" placeholder="e.g. John Smith" oninput="updatePreview()" />
 
-      <!-- Preview -->
-      <div class="preview-wrap">
-        <h3><i class="fas fa-eye"></i> Preview</h3>
-        <div class="preview-placeholder" id="ph">
-          <i class="fas fa-file-certificate"></i>
-          <p>Fill in the form and click <strong>Generate Certificate</strong></p>
-        </div>
-        <div id="preview-box"></div>
-        <div class="preview-actions" id="prev-actions">
-          <button class="btn-dl" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Download PDF</button>
-          <button class="btn-reset" onclick="resetForm()"><i class="fas fa-plus"></i> New Certificate</button>
-        </div>
-      </div>
+      <label>Designation / Role</label>
+      <input type="text" id="f-role" placeholder="e.g. Web Developer Intern" oninput="updatePreview()" />
+
+      <label>Start Date</label>
+      <input type="date" id="f-start" oninput="updatePreview()" />
+
+      <label>End Date</label>
+      <input type="date" id="f-end" oninput="updatePreview()" />
+
+      <button class="gen-btn" onclick="generateCert()">✔ GENERATE CERTIFICATE</button>
+      <button class="dl-btn" id="dl-btn" onclick="downloadPDF()">⬇ DOWNLOAD PDF</button>
+      <div class="cert-id-display" id="cert-id-display"></div>
     </div>
 
-    <!-- Log -->
-    <div class="card log-card">
-      <h3><i class="fas fa-history" style="color:var(--gold)"></i> Issued Certificates</h3>
-      <table class="log-table">
-        <thead>
-          <tr><th>Cert ID</th><th>Name</th><th>Designation</th><th>Period</th><th>Issued On</th><th></th></tr>
-        </thead>
-        <tbody id="log-body">
-          <tr><td colspan="6" class="log-empty"><i class="fas fa-inbox"></i> No certificates yet.</td></tr>
-        </tbody>
-      </table>
+    <!-- PREVIEW -->
+    <div class="cert-wrap">
+      <h3>Certificate Preview</h3>
+      <div id="cert-container">
+        <img id="cert-bg" src="certi rolr.pdf.png" alt="Certificate Template" crossorigin="anonymous" />
+        <div class="overlay" id="o-name">INTERN NAME</div>
+        <div class="overlay" id="o-duration">– –</div>
+        <div class="overlay" id="o-role">Designation</div>
+        <div class="overlay" id="o-cert-id">BB-XXXX-XXX</div>
+        <div class="overlay" id="o-date">DD Month YYYY</div>
+      </div>
+      <p class="scale-hint">* Preview at 1024×683. PDF exports at full resolution (A4 landscape).</p>
     </div>
   </div>
-</div>
 
-<!-- HIDDEN CERTIFICATE STAGE (for capture) -->
-<div id="cert-stage">
-  <div id="certificate">
-    <div id="o-name">INTERN NAME</div>
-    <div id="o-duration">01 Jan 2025 – 31 Mar 2025</div>
-    <div id="o-dept">Designation</div>
-    <div id="o-qr-wrap">
-      <div id="o-qr-box"></div>
-      <div id="o-qr-label">Scan to Verify</div>
-    </div>
-    <div id="o-cert-id">BB-2025-000000</div>
-    <div id="o-date">01 January 2025</div>
+  <!-- ISSUED LOG -->
+  <div class="log-card">
+    <h3>📄 Issued Certificates Log</h3>
+    <div id="cert-log"><p class="no-log">No certificates issued yet.</p></div>
   </div>
 </div>
 
 <script>
-  // ── AUTH ──
-  const CREDS = { email:'businessboxvizag@gmail.com', password:'BBvizag23' };
-  let current = null;
+const ADMIN_EMAIL = 'businessboxvizag@gmail.com';
+const ADMIN_PASS  = 'BBvizag23';
 
-  document.getElementById('inp-pwd').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
-  document.getElementById('inp-email').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+function doLogin() {
+  const e = document.getElementById('l-email').value.trim();
+  const p = document.getElementById('l-pass').value;
+  if (e === ADMIN_EMAIL && p === ADMIN_PASS) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('main-panel').style.display = 'block';
+    loadLog();
+    updatePreview();
+  } else {
+    document.getElementById('login-err').textContent = 'Invalid credentials. Try again.';
+  }
+}
+function doLogout() {
+  document.getElementById('login-screen').style.display = 'block';
+  document.getElementById('main-panel').style.display = 'none';
+  document.getElementById('l-email').value = '';
+  document.getElementById('l-pass').value = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
 
-  function togglePwd() {
-    const i = document.getElementById('inp-pwd');
-    const ic = document.getElementById('eye-ic').querySelector('i');
-    i.type = i.type==='password' ? 'text' : 'password';
-    ic.className = i.type==='password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+// Sequential cert ID: BB-YYYY-NNN
+function getNextCertId() {
+  const year = new Date().getFullYear();
+  const key  = 'bb_cert_counter_' + year;
+  let count  = parseInt(localStorage.getItem(key) || '0') + 1;
+  localStorage.setItem(key, count);
+  return 'BB-' + year + '-' + String(count).padStart(3, '0');
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '—';
+  const d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+}
+function formatDateLong(dateStr) {
+  if (!dateStr) return '—';
+  const d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleDateString('en-GB', { day:'2-digit', month:'long', year:'numeric' });
+}
+
+let currentCertId = null;
+
+function updatePreview() {
+  const name  = document.getElementById('f-name').value.trim() || 'INTERN NAME';
+  const role  = document.getElementById('f-role').value.trim() || 'Designation';
+  const start = document.getElementById('f-start').value;
+  const end   = document.getElementById('f-end').value;
+
+  const duration = (start && end)
+    ? formatDate(start) + ' – ' + formatDate(end)
+    : '– –';
+
+  document.getElementById('o-name').textContent     = name.toUpperCase();
+  document.getElementById('o-duration').textContent  = duration;
+  document.getElementById('o-role').textContent      = role;
+  document.getElementById('o-cert-id').textContent   = currentCertId || 'BB-XXXX-XXX';
+  document.getElementById('o-date').textContent      = formatDateLong(end || new Date().toISOString().slice(0,10));
+}
+
+function generateCert() {
+  const name  = document.getElementById('f-name').value.trim();
+  const role  = document.getElementById('f-role').value.trim();
+  const start = document.getElementById('f-start').value;
+  const end   = document.getElementById('f-end').value;
+
+  if (!name || !role || !start || !end) {
+    alert('Please fill in all fields before generating.');
+    return;
   }
 
-  function doLogin() {
-    const email = document.getElementById('inp-email').value.trim();
-    const pwd   = document.getElementById('inp-pwd').value;
-    if (email===CREDS.email && pwd===CREDS.password) {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('dashboard').style.display = 'block';
-      document.getElementById('login-err').style.display = 'none';
-      renderLog();
-    } else {
-      document.getElementById('login-err').style.display = 'block';
-      document.getElementById('inp-pwd').value = '';
-    }
-  }
+  currentCertId = getNextCertId();
 
-  function doLogout() {
-    document.getElementById('dashboard').style.display = 'none';
-    document.getElementById('login-screen').style.display = 'flex';
-    document.getElementById('inp-email').value = '';
-    document.getElementById('inp-pwd').value = '';
-  }
+  // Save to localStorage log for verify.html lookup
+  const certs = JSON.parse(localStorage.getItem('bb_certs') || '[]');
+  const certData = {
+    id: currentCertId, name, role, start, end,
+    issued: new Date().toISOString()
+  };
+  certs.push(certData);
+  localStorage.setItem('bb_certs', JSON.stringify(certs));
 
-  // ── HELPERS ──
-  function fmt(dateStr) {
-    const d = new Date(dateStr + 'T00:00:00');
-    return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
-  }
-  function fmtLong(dateStr) {
-    const d = new Date(dateStr + 'T00:00:00');
-    return d.toLocaleDateString('en-GB', { day:'2-digit', month:'long', year:'numeric' });
-  }
-  function genId() {
-    return 'BB-' + new Date().getFullYear() + '-' + (Math.floor(Math.random()*900000)+100000);
-  }
+  updatePreview();
 
-  // ── GENERATE ──
-  async function generateCert() {
-    const name  = document.getElementById('f-name').value.trim();
-    const dept  = document.getElementById('f-dept').value.trim();
-    const start = document.getElementById('f-start').value;
-    const end   = document.getElementById('f-end').value;
+  document.getElementById('dl-btn').style.display = 'block';
+  document.getElementById('cert-id-display').style.display = 'block';
+  document.getElementById('cert-id-display').textContent = '✓ Certificate ID: ' + currentCertId;
 
-    if (!name || !dept || !start || !end) { alert('Please fill in all fields.'); return; }
-    if (new Date(start) > new Date(end)) { alert('Start date cannot be after end date.'); return; }
+  loadLog();
+}
 
-    const id        = genId();
-    const issueDate = new Date().toLocaleDateString('en-GB', {day:'2-digit',month:'long',year:'numeric'});
-    const verifyUrl = window.location.origin +
-      (window.location.pathname.replace('admin.html','')) +
-      'verify.html?id=' + encodeURIComponent(id) +
-      '&name=' + encodeURIComponent(name) +
-      '&dept=' + encodeURIComponent(dept) +
-      '&start=' + encodeURIComponent(fmt(start)) +
-      '&end='   + encodeURIComponent(fmt(end));
+async function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const container = document.getElementById('cert-container');
 
-    current = { id, name, dept, start: fmt(start), end: fmt(end), rawStart: start, rawEnd: end, issueDate, verifyUrl };
-
-    // Populate overlays
-    document.getElementById('o-name').textContent     = name.toUpperCase();
-    document.getElementById('o-dept').textContent     = dept;
-    document.getElementById('o-duration').textContent = fmt(start) + ' – ' + fmt(end);
-    document.getElementById('o-cert-id').textContent  = id;
-    document.getElementById('o-date').textContent     = issueDate;
-
-    // Font-size scaling for long names
-    const nameEl = document.getElementById('o-name');
-    nameEl.style.fontSize = name.length > 22 ? '34px' : name.length > 16 ? '40px' : '44px';
-
-    // QR code
-    const qrBox = document.getElementById('o-qr-box');
-    qrBox.innerHTML = '';
-    new QRCode(qrBox, {
-      text: verifyUrl, width: 97, height: 97,
-      colorDark:'#0d1b3e', colorLight:'#ffffff',
-      correctLevel: QRCode.CorrectLevel.M
+  try {
+    const canvas = await html2canvas(container, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: false,
+      width: 1024,
+      height: 683,
+      logging: false
     });
 
-    await new Promise(r => setTimeout(r, 500));
-    await renderPreview();
+    const imgData = canvas.toDataURL('image/jpeg', 0.97);
+    const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+    const pw = pdf.internal.pageSize.getWidth();
+    const ph = pdf.internal.pageSize.getHeight();
+    pdf.addImage(imgData, 'JPEG', 0, 0, pw, ph);
 
-    saveLog(current);
-    renderLog();
+    const safeName = document.getElementById('f-name').value.trim().replace(/\s+/g,'_') || 'Certificate';
+    pdf.save('BusinessBOX_Certificate_' + safeName + '_' + currentCertId + '.pdf');
+  } catch(err) {
+    alert('PDF generation failed: ' + err.message);
   }
+}
 
-  async function renderPreview() {
-    const certEl = document.getElementById('certificate');
-    const canvas = await html2canvas(certEl, {
-      scale: 0.5, useCORS: true, allowTaint: true,
-      backgroundColor: '#ffffff', logging: false
-    });
-    const img = new Image();
-    img.src = canvas.toDataURL('image/png');
-    img.style.width = '100%';
-
-    const box = document.getElementById('preview-box');
-    box.innerHTML = '';
-    box.appendChild(img);
-    box.style.display = 'block';
-
-    document.getElementById('ph').style.display = 'none';
-    const pa = document.getElementById('prev-actions');
-    pa.style.display = 'flex';
+function loadLog() {
+  const certs = JSON.parse(localStorage.getItem('bb_certs') || '[]');
+  const el = document.getElementById('cert-log');
+  if (!certs.length) {
+    el.innerHTML = '<p class="no-log">No certificates issued yet.</p>';
+    return;
   }
-
-  async function downloadPDF() {
-    if (!current) return;
-    const btn = document.querySelector('.btn-dl');
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating…';
-    btn.disabled = true;
-
-    await new Promise(r => setTimeout(r, 100));
-    const certEl = document.getElementById('certificate');
-    const canvas = await html2canvas(certEl, {
-      scale: 2, useCORS: true, allowTaint: true,
-      backgroundColor: '#ffffff', logging: false
-    });
-
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({ orientation:'landscape', unit:'mm', format:'a4' });
-    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 297, 210);
-    pdf.save('BusinessBOX_Certificate_' + current.name.replace(/\s+/g,'_') + '_' + current.id + '.pdf');
-
-    btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download PDF';
-    btn.disabled = false;
-  }
-
-  function resetForm() {
-    ['f-name','f-dept','f-start','f-end'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('preview-box').style.display = 'none';
-    document.getElementById('prev-actions').style.display = 'none';
-    document.getElementById('ph').style.display = 'block';
-    current = null;
-  }
-
-  // ── LOG ──
-  function saveLog(c) {
-    const log = JSON.parse(localStorage.getItem('bb_certs') || '[]');
-    log.unshift(c);
-    localStorage.setItem('bb_certs', JSON.stringify(log));
-  }
-
-  function renderLog() {
-    const log = JSON.parse(localStorage.getItem('bb_certs') || '[]');
-    const tb = document.getElementById('log-body');
-    if (!log.length) {
-      tb.innerHTML = '<tr><td colspan="5" class="log-empty"><i class="fas fa-inbox"></i> No certificates yet.</td></tr>';
-      return;
-    }
-    tb.innerHTML = log.map(c => `
-      <tr>
-        <td><span class="id-chip">${c.id}</span></td>
-        <td><strong>${c.name}</strong></td>
-        <td>${c.dept || '—'}</td>
-        <td>${c.start} – ${c.end}</td>
-        <td>${c.issueDate}</td>
-        <td>
-          <button style="background:none;border:1.5px solid #e2e8f0;color:#6b7280;padding:.3rem .8rem;border-radius:6px;font-family:inherit;font-size:.8rem;font-weight:600;cursor:pointer;"
-            onclick='reprintCert(${JSON.stringify(c).replace(/'/g,"&#39;")})'>
-            <i class="fas fa-redo"></i> Re-print
-          </button>
-        </td>
-      </tr>`).join('');
-  }
-
-  async function reprintCert(c) {
-    document.getElementById('f-name').value  = c.name;
-    document.getElementById('f-dept').value  = c.dept || '';
-    document.getElementById('f-start').value = c.rawStart || '';
-    document.getElementById('f-end').value   = c.rawEnd   || '';
-    await generateCert();
-  }
+  let html = '<table><thead><tr><th>Cert ID</th><th>Name</th><th>Role</th><th>Duration</th><th>Date Issued</th></tr></thead><tbody>';
+  certs.slice().reverse().forEach(c => {
+    html += `<tr>
+      <td style="font-family:monospace;color:#c9a84c;">${c.id}</td>
+      <td>${c.name}</td>
+      <td>${c.role}</td>
+      <td>${formatDate(c.start)} – ${formatDate(c.end)}</td>
+      <td>${new Date(c.issued).toLocaleDateString('en-GB')}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
 </script>
 </body>
 </html>
