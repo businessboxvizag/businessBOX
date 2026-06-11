@@ -248,7 +248,11 @@
 
   <!-- ISSUED LOG -->
   <div class="log-card">
-    <h3>📄 Issued Certificates Log</h3>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <h3 style="margin:0;">📄 Issued Certificates Log</h3>
+      <button onclick="exportCertsJson()" style="background:#0d1b3e;color:#c9a84c;border:none;border-radius:6px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;">⬇ Export certs.json</button>
+    </div>
+    <p style="font-size:11px;color:#aaa;margin-bottom:10px;">After issuing certificates, click Export → save <code>certs.json</code> to this folder → push to GitHub so verify.html works for interns on any device.</p>
     <div id="cert-log"><p class="no-log">No certificates issued yet.</p></div>
   </div>
 </div>
@@ -372,6 +376,16 @@ async function downloadPDF() {
   } catch(err) {
     alert('PDF generation failed: ' + err.message);
   }
+}
+
+function exportCertsJson() {
+  const certs = JSON.parse(localStorage.getItem('bb_certs') || '[]');
+  const blob = new Blob([JSON.stringify(certs, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'certs.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
 function loadLog() {
