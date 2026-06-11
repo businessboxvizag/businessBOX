@@ -121,7 +121,7 @@
 </div>
 
 <div class="bb-footer">
-  <p>BusinessBOX Vizag &nbsp;|&nbsp; <a href="index.html">businessbox.in</a></p>
+  <p>BusinessBOX Vizag &nbsp;|&nbsp; <a href="index.html">businessbox.org.in</a></p>
 </div>
 
 <script>
@@ -131,20 +131,39 @@ function formatDate(dateStr) {
   return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
 }
 
-// Try localStorage first, then fetch certs.json (for deployed/cross-device use)
+async function fetchWithTimeout(url, timeout = 5000) {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), timeout);
+  try {
+    const r = await fetch(url, { signal: ctrl.signal });
+    clearTimeout(t);
+    return r;
+  } catch(e) { clearTimeout(t); return null; }
+}
+
 async function getAllCerts() {
-  // 1. localStorage (same device as admin)
+  // 1. GitHub (always current, works on any device)
+  const ghUrl = 'https://raw.githubusercontent.com/businessboxvizag/businessBOX/main/certs.json?t=' + Date.now();
+  const r = await fetchWithTimeout(ghUrl, 5000);
+  if (r && r.ok) {
+    try {
+      const data = await r.json();
+      if (Array.isArray(data) && data.length > 0) return data;
+    } catch(e) {}
+  }
+
+  // 2. Fallback: localStorage (same device as admin)
   const local = JSON.parse(localStorage.getItem('bb_certs') || '[]');
   if (local.length > 0) return local;
 
-  // 2. Fetch certs.json from same directory (exported from admin panel)
+  // 3. Fallback: certs.json on same server
   try {
-    const res = await fetch('certs.json?t=' + Date.now());
-    if (res.ok) {
-      const data = await res.json();
-      return Array.isArray(data) ? data : [];
+    const r2 = await fetchWithTimeout('certs.json', 3000);
+    if (r2 && r2.ok) {
+      const data = await r2.json();
+      if (Array.isArray(data)) return data;
     }
-  } catch (e) { /* file not present */ }
+  } catch(e) {}
 
   return [];
 }

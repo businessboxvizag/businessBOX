@@ -247,12 +247,23 @@
   </div>
 
   <!-- ISSUED LOG -->
+  <!-- GitHub Sync Settings -->
+  <div class="log-card" style="margin-top:20px;">
+    <h3 style="margin-bottom:10px;">⚙️ GitHub Auto-Sync <span style="font-size:11px;color:#aaa;font-weight:400;">(for cross-device verification)</span></h3>
+    <p style="font-size:12px;color:#666;margin-bottom:10px;">Enter your GitHub Personal Access Token once. Every cert you issue will automatically update <code>certs.json</code> in your repo so any intern can verify from any device instantly.</p>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <input type="password" id="gh-pat" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="flex:1;padding:8px 10px;border:1px solid #ccc;border-radius:6px;font-size:13px;font-family:monospace;" />
+      <button onclick="savePAT()" style="background:#0d1b3e;color:#c9a84c;border:none;border-radius:6px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;">Save</button>
+      <button onclick="testPAT()" style="background:#eee;color:#333;border:none;border-radius:6px;padding:9px 16px;font-size:13px;cursor:pointer;">Test</button>
+    </div>
+    <div id="pat-status" style="font-size:12px;margin-top:8px;color:#aaa;"></div>
+  </div>
+
   <div class="log-card">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
       <h3 style="margin:0;">📄 Issued Certificates Log</h3>
-      <button onclick="exportCertsJson()" style="background:#0d1b3e;color:#c9a84c;border:none;border-radius:6px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;">⬇ Export certs.json</button>
+      <button onclick="exportCertsJson()" style="background:#eee;color:#555;border:none;border-radius:6px;padding:7px 14px;font-size:12px;cursor:pointer;">⬇ Export certs.json</button>
     </div>
-    <p style="font-size:11px;color:#aaa;margin-bottom:10px;">After issuing certificates, click Export → save <code>certs.json</code> to this folder → push to GitHub so verify.html works for interns on any device.</p>
     <div id="cert-log"><p class="no-log">No certificates issued yet.</p></div>
   </div>
 </div>
@@ -268,6 +279,7 @@ function doLogin() {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('main-panel').style.display = 'block';
     loadLog();
+    loadPATStatus();
     updatePreview();
   } else {
     document.getElementById('login-err').textContent = 'Invalid credentials. Try again.';
@@ -320,7 +332,7 @@ function updatePreview() {
   document.getElementById('o-date').textContent      = formatDateLong(end || new Date().toISOString().slice(0,10));
 }
 
-function generateCert() {
+async function generateCert() {
   const name  = document.getElementById('f-name').value.trim();
   const role  = document.getElementById('f-role').value.trim();
   const start = document.getElementById('f-start').value;
@@ -333,12 +345,9 @@ function generateCert() {
 
   currentCertId = getNextCertId();
 
-  // Save to localStorage log for verify.html lookup
+  // Save to localStorage
   const certs = JSON.parse(localStorage.getItem('bb_certs') || '[]');
-  const certData = {
-    id: currentCertId, name, role, start, end,
-    issued: new Date().toISOString()
-  };
+  const certData = { id: currentCertId, name, role, start, end, issued: new Date().toISOString() };
   certs.push(certData);
   localStorage.setItem('bb_certs', JSON.stringify(certs));
 
@@ -349,6 +358,40 @@ function generateCert() {
   document.getElementById('cert-id-display').textContent = '✓ Certificate ID: ' + currentCertId;
 
   loadLog();
+
+  // Auto-push certs.json to GitHub
+  const pat = localStorage.getItem('bb_github_pat');
+  if (pat) {
+    document.getElementById('cert-id-display').textContent = '✓ ' + currentCertId + ' — syncing to GitHub...';
+    const ok = await pushCertsToGitHub(certs, pat);
+    document.getElementById('cert-id-display').textContent = ok
+      ? '✓ ' + currentCertId + ' — synced ✔'
+      : '✓ ' + currentCertId + ' — sync failed (check PAT)';
+  }
+}
+
+async function pushCertsToGitHub(certs, pat) {
+  const REPO  = 'businessboxvizag/businessBOX';
+  const FILE  = 'certs.json';
+  const API   = 'https://api.github.com/repos/' + REPO + '/contents/' + FILE;
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(certs, null, 2))));
+
+  try {
+    // Get current SHA (if file exists)
+    let sha = null;
+    const get = await fetch(API, { headers: { Authorization: 'token ' + pat } });
+    if (get.ok) { const d = await get.json(); sha = d.sha; }
+
+    const body = { message: 'Update certs.json [auto]', content };
+    if (sha) body.sha = sha;
+
+    const put = await fetch(API, {
+      method: 'PUT',
+      headers: { Authorization: 'token ' + pat, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    return put.ok;
+  } catch(e) { return false; }
 }
 
 async function downloadPDF() {
@@ -376,6 +419,35 @@ async function downloadPDF() {
   } catch(err) {
     alert('PDF generation failed: ' + err.message);
   }
+}
+
+function savePAT() {
+  const pat = document.getElementById('gh-pat').value.trim();
+  if (!pat) return;
+  localStorage.setItem('bb_github_pat', pat);
+  document.getElementById('pat-status').innerHTML = '✅ Saved! Certs will auto-sync to GitHub from now on.';
+  document.getElementById('gh-pat').value = '';
+}
+
+async function testPAT() {
+  const pat = localStorage.getItem('bb_github_pat') || document.getElementById('gh-pat').value.trim();
+  if (!pat) { document.getElementById('pat-status').textContent = '⚠ Enter a PAT first.'; return; }
+  document.getElementById('pat-status').textContent = 'Testing...';
+  try {
+    const r = await fetch('https://api.github.com/repos/businessboxvizag/businessBOX', {
+      headers: { Authorization: 'token ' + pat }
+    });
+    document.getElementById('pat-status').innerHTML = r.ok
+      ? '✅ Connected to GitHub repo successfully!'
+      : '❌ Failed — check your PAT has repo write access.';
+  } catch(e) {
+    document.getElementById('pat-status').textContent = '❌ Network error.';
+  }
+}
+
+function loadPATStatus() {
+  const saved = localStorage.getItem('bb_github_pat');
+  if (saved) document.getElementById('pat-status').innerHTML = '✅ GitHub PAT saved — auto-sync is active.';
 }
 
 function exportCertsJson() {
