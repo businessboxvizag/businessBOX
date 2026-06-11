@@ -132,23 +132,18 @@ function formatDate(dateStr) {
 }
 
 async function getAllCerts() {
-  // 1. localStorage (instant — works on same device as admin)
+  // 1. localStorage (instant — same device as admin)
   const local = JSON.parse(localStorage.getItem('bb_certs') || '[]');
   if (local.length > 0) return local;
 
-  // 2. GitHub raw (works on any device after auto-sync)
+  // 2. /certs.json served from this domain (pushed to GitHub → Vercel deploys it)
   try {
-    const ctrl = new AbortController();
-    setTimeout(() => ctrl.abort(), 4000);
-    const r = await fetch(
-      'https://raw.githubusercontent.com/businessboxvizag/businessBOX/main/certs.json?t=' + Date.now(),
-      { signal: ctrl.signal }
-    );
+    const r = await fetch('/certs.json?t=' + Date.now());
     if (r.ok) {
       const data = await r.json();
       if (Array.isArray(data)) return data;
     }
-  } catch(e) { /* not available yet */ }
+  } catch(e) {}
 
   return [];
 }
