@@ -17,65 +17,35 @@
     justify-content: flex-start;
     padding: 40px 20px 60px;
   }
-
-  .logo-area {
-    text-align: center;
-    margin-bottom: 32px;
-  }
+  .logo-area { text-align: center; margin-bottom: 32px; }
   .logo-area h1 {
     font-family: 'Cinzel', serif;
-    color: #c9a84c;
-    font-size: 26px;
-    letter-spacing: 2px;
+    color: #c9a84c; font-size: 26px; letter-spacing: 2px;
   }
-  .logo-area p {
-    color: #aab; font-size: 13px; margin-top: 4px;
-  }
+  .logo-area p { color: #aab; font-size: 13px; margin-top: 4px; }
 
   .search-card {
-    background: #fff;
-    border-radius: 14px;
-    padding: 36px 32px;
-    width: 100%;
-    max-width: 480px;
+    background: #fff; border-radius: 14px;
+    padding: 36px 32px; width: 100%; max-width: 500px;
     text-align: center;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
   }
-  .search-card h2 {
-    color: #0d1b3e;
-    font-size: 20px;
-    margin-bottom: 8px;
-  }
-  .search-card .desc {
-    color: #666; font-size: 13px; margin-bottom: 24px; line-height: 1.5;
-  }
-  .input-row {
-    display: flex; gap: 10px;
-  }
+  .search-card h2 { color: #0d1b3e; font-size: 20px; margin-bottom: 8px; }
+  .search-card .desc { color: #666; font-size: 13px; margin-bottom: 24px; line-height: 1.5; }
+
+  .input-row { display: flex; gap: 10px; }
   .input-row input {
-    flex: 1;
-    padding: 12px 16px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 15px;
-    font-family: monospace;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    outline: none;
-    transition: border-color 0.2s;
+    flex: 1; padding: 12px 16px;
+    border: 2px solid #e0e0e0; border-radius: 8px;
+    font-size: 15px; font-family: monospace;
+    letter-spacing: 1px; text-transform: uppercase;
+    outline: none; transition: border-color 0.2s;
   }
   .input-row input:focus { border-color: #c9a84c; }
   .input-row button {
-    padding: 12px 20px;
-    background: #0d1b3e;
-    color: #c9a84c;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: 1px;
-    white-space: nowrap;
+    padding: 12px 20px; background: #0d1b3e; color: #c9a84c;
+    border: none; border-radius: 8px; font-size: 14px;
+    font-weight: 700; cursor: pointer; letter-spacing: 1px; white-space: nowrap;
   }
   .input-row button:hover { background: #162a55; }
 
@@ -83,96 +53,49 @@
 
   /* NOT FOUND */
   .not-found {
-    background: #fff3f3;
-    border: 1px solid #ffcccc;
-    border-radius: 10px;
-    padding: 20px;
-    color: #c0392b;
-    font-size: 14px;
+    background: #fff3f3; border: 1px solid #ffcccc;
+    border-radius: 10px; padding: 20px; color: #c0392b; font-size: 14px;
   }
   .not-found .icon { font-size: 36px; margin-bottom: 8px; }
 
-  /* VERIFIED BADGE */
+  /* VERIFIED */
   .verified-card {
-    background: #f0faf4;
-    border: 2px solid #27ae60;
-    border-radius: 14px;
-    padding: 28px 24px 24px;
-    text-align: center;
+    background: #f0faf4; border: 2px solid #27ae60;
+    border-radius: 14px; padding: 28px 24px 24px; text-align: center;
   }
   .verified-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: #27ae60;
-    color: #fff;
-    border-radius: 50px;
-    padding: 10px 22px;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    margin-bottom: 22px;
+    display: inline-flex; align-items: center; gap: 10px;
+    background: #27ae60; color: #fff; border-radius: 50px;
+    padding: 10px 22px; font-size: 16px; font-weight: 700;
+    letter-spacing: 1px; margin-bottom: 22px;
   }
-  .verified-badge .tick {
-    font-size: 20px;
-  }
+  .verified-badge .tick { font-size: 20px; }
+
   .cert-name {
-    font-family: 'Cinzel', serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: #0d1b3e;
-    margin-bottom: 6px;
-    letter-spacing: 1px;
+    font-family: 'Cinzel', serif; font-size: 22px;
+    font-weight: 700; color: #0d1b3e; margin-bottom: 6px; letter-spacing: 1px;
   }
-  .cert-subtitle {
-    color: #555; font-size: 13px; margin-bottom: 20px;
-  }
+  .cert-subtitle { color: #555; font-size: 13px; margin-bottom: 20px; }
 
   .detail-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    text-align: left;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; text-align: left;
   }
   .detail-item {
-    background: #fff;
-    border-radius: 8px;
-    padding: 12px 14px;
-    border: 1px solid #e0e0e0;
+    background: #fff; border-radius: 8px;
+    padding: 12px 14px; border: 1px solid #e0e0e0;
   }
   .detail-item .label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #999;
-    margin-bottom: 4px;
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 1px; color: #999; margin-bottom: 4px;
   }
-  .detail-item .value {
-    font-size: 13px;
-    font-weight: 600;
-    color: #0d1b3e;
-  }
+  .detail-item .value { font-size: 13px; font-weight: 600; color: #0d1b3e; }
   .detail-item.full { grid-column: 1 / -1; }
-  .cert-id-badge {
-    font-family: monospace;
-    font-size: 13px;
-    color: #c9a84c;
-    font-weight: 700;
-  }
+  .cert-id-badge { font-family: monospace; font-size: 13px; color: #c9a84c; font-weight: 700; }
 
-  .footer-note {
-    margin-top: 16px;
-    font-size: 11px;
-    color: #888;
-    line-height: 1.5;
-  }
+  .footer-note { margin-top: 16px; font-size: 11px; color: #888; line-height: 1.5; }
 
-  .bb-footer {
-    margin-top: 40px;
-    text-align: center;
-    color: #6677aa;
-    font-size: 12px;
-  }
+  .bb-footer { margin-top: 40px; text-align: center; color: #6677aa; font-size: 12px; }
   .bb-footer a { color: #c9a84c; text-decoration: none; }
 </style>
 </head>
@@ -185,7 +108,7 @@
 
 <div class="search-card">
   <h2>🔍 Verify Certificate</h2>
-  <p class="desc">Enter the Certificate ID printed on the internship certificate to verify its authenticity.</p>
+  <p class="desc">Enter the Certificate ID printed on your internship certificate to verify its authenticity.</p>
 
   <div class="input-row">
     <input type="text" id="cert-id-input" placeholder="BB-2026-001" maxlength="20"
@@ -205,20 +128,35 @@
 function formatDate(dateStr) {
   if (!dateStr) return '—';
   const d = new Date(dateStr + 'T00:00:00');
-  return d.toLocaleDateString('en-GB', { day:'2-digit', month:'long', year:'numeric' });
+  return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
 }
 
-function verifyCert() {
+// Try localStorage first, then fetch certs.json (for deployed/cross-device use)
+async function getAllCerts() {
+  // 1. localStorage (same device as admin)
+  const local = JSON.parse(localStorage.getItem('bb_certs') || '[]');
+  if (local.length > 0) return local;
+
+  // 2. Fetch certs.json from same directory (exported from admin panel)
+  try {
+    const res = await fetch('certs.json?t=' + Date.now());
+    if (res.ok) {
+      const data = await res.json();
+      return Array.isArray(data) ? data : [];
+    }
+  } catch (e) { /* file not present */ }
+
+  return [];
+}
+
+async function verifyCert() {
   const inputId = document.getElementById('cert-id-input').value.trim().toUpperCase();
   const result  = document.getElementById('result');
+  if (!inputId) { result.innerHTML = ''; return; }
 
-  if (!inputId) {
-    result.innerHTML = '';
-    return;
-  }
+  result.innerHTML = '<p style="color:#aaa;font-size:13px;margin-top:12px;">Checking...</p>';
 
-  // Look up in localStorage (populated by admin.html on same device/browser)
-  const certs = JSON.parse(localStorage.getItem('bb_certs') || '[]');
+  const certs = await getAllCerts();
   const cert  = certs.find(c => c.id.toUpperCase() === inputId);
 
   if (!cert) {
@@ -226,7 +164,7 @@ function verifyCert() {
       <div class="not-found">
         <div class="icon">✗</div>
         <strong>Certificate Not Found</strong><br>
-        <span style="font-size:12px; color:#888; display:block; margin-top:6px;">
+        <span style="font-size:12px;color:#888;display:block;margin-top:6px;">
           No record found for <code>${inputId}</code>.<br>
           Please check the ID and try again, or contact BusinessBOX directly.
         </span>
@@ -238,20 +176,27 @@ function verifyCert() {
     ? new Date(cert.issued).toLocaleDateString('en-GB', { day:'2-digit', month:'long', year:'numeric' })
     : '—';
 
+  const duration = (cert.start && cert.end)
+    ? formatDate(cert.start) + ' – ' + formatDate(cert.end)
+    : '—';
+
   result.innerHTML = `
     <div class="verified-card">
-      <div class="verified-badge">
-        <span class="tick">✔</span>
-        VERIFIED AUTHENTIC
-      </div>
-
+      <div class="verified-badge"><span class="tick">✔</span> VERIFIED AUTHENTIC</div>
       <div class="cert-name">${cert.name.toUpperCase()}</div>
       <div class="cert-subtitle">has successfully completed the internship at BusinessBOX</div>
-
       <div class="detail-grid">
         <div class="detail-item full">
           <div class="label">Certificate ID</div>
           <div class="value cert-id-badge">${cert.id}</div>
+        </div>
+        <div class="detail-item full">
+          <div class="label">Intern Name</div>
+          <div class="value">${cert.name}</div>
+        </div>
+        <div class="detail-item full">
+          <div class="label">Duration</div>
+          <div class="value">${duration}</div>
         </div>
         <div class="detail-item">
           <div class="label">Designation / Role</div>
@@ -261,19 +206,10 @@ function verifyCert() {
           <div class="label">Date of Issue</div>
           <div class="value">${issuedDate}</div>
         </div>
-        <div class="detail-item">
-          <div class="label">Start Date</div>
-          <div class="value">${formatDate(cert.start)}</div>
-        </div>
-        <div class="detail-item">
-          <div class="label">End Date</div>
-          <div class="value">${formatDate(cert.end)}</div>
-        </div>
       </div>
-
       <p class="footer-note">
         This certificate was issued by BusinessBOX, Vizag.<br>
-        For further queries, contact: businessboxvizag@gmail.com
+        For queries: businessboxvizag@gmail.com
       </p>
     </div>`;
 }
