@@ -131,21 +131,17 @@ function formatDate(dateStr) {
   return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
 }
 
-async function getAllCerts() {
-  // 1. localStorage (instant — same device as admin)
-  const local = JSON.parse(localStorage.getItem('bb_certs') || '[]');
-  if (local.length > 0) return local;
+const FB_URL = 'https://businessbox-certs-default-rtdb.firebaseio.com';
 
-  // 2. /certs.json served from this domain (pushed to GitHub → Vercel deploys it)
+async function getCertFromFirebase(certId) {
   try {
-    const r = await fetch('/certs.json?t=' + Date.now());
+    const r = await fetch(`${FB_URL}/certs/${certId}.json`);
     if (r.ok) {
       const data = await r.json();
-      if (Array.isArray(data)) return data;
+      return data && data.id ? data : null;
     }
   } catch(e) {}
-
-  return [];
+  return null;
 }
 
 async function verifyCert() {
@@ -155,8 +151,12 @@ async function verifyCert() {
 
   result.innerHTML = '<p style="color:#aaa;font-size:13px;margin-top:12px;">Checking...</p>';
 
-  const certs = await getAllCerts();
-  const cert  = certs.find(c => c.id.toUpperCase() === inputId);
+  // Try Firebase first, then localStorage fallback
+  let cert = await getCertFromFirebase(inputId);
+  if (!cert) {
+    const local = JSON.parse(localStorage.getItem('bb_certs') || '[]');
+    cert = local.find(c => c.id.toUpperCase() === inputId) || null;
+  }
 
   if (!cert) {
     result.innerHTML = `

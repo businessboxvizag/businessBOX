@@ -247,16 +247,19 @@
   </div>
 
   <!-- ISSUED LOG -->
-  <!-- GitHub Sync Settings -->
+  <!-- Firebase Settings -->
   <div class="log-card" style="margin-top:20px;">
-    <h3 style="margin-bottom:10px;">⚙️ GitHub Auto-Sync <span style="font-size:11px;color:#aaa;font-weight:400;">(for cross-device verification)</span></h3>
-    <p style="font-size:12px;color:#666;margin-bottom:10px;">Enter your GitHub Personal Access Token once. Every cert you issue will automatically update <code>certs.json</code> in your repo so any intern can verify from any device instantly.</p>
+    <h3 style="margin-bottom:10px;">🔥 Firebase Sync <span style="font-size:11px;color:#aaa;font-weight:400;">(cross-device verification)</span></h3>
+    <p style="font-size:12px;color:#666;margin-bottom:10px;">Paste your Firebase Realtime Database URL and secret once. Every certificate will instantly be verifiable on any device.</p>
+    <label style="font-size:12px;color:#555;">Database URL</label>
+    <input type="text" id="fb-url" value="https://businessbox-certs-default-rtdb.firebaseio.com" placeholder="https://your-project-default-rtdb.firebaseio.com" style="width:100%;padding:8px 10px;border:1px solid #ccc;border-radius:6px;font-size:12px;font-family:monospace;margin:4px 0 10px;" />
+    <label style="font-size:12px;color:#555;">Database Secret</label>
     <div style="display:flex;gap:8px;align-items:center;">
-      <input type="password" id="gh-pat" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="flex:1;padding:8px 10px;border:1px solid #ccc;border-radius:6px;font-size:13px;font-family:monospace;" />
-      <button onclick="savePAT()" style="background:#0d1b3e;color:#c9a84c;border:none;border-radius:6px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;">Save</button>
-      <button onclick="testPAT()" style="background:#eee;color:#333;border:none;border-radius:6px;padding:9px 16px;font-size:13px;cursor:pointer;">Test</button>
+      <input type="password" id="fb-secret" placeholder="your-database-secret" style="flex:1;padding:8px 10px;border:1px solid #ccc;border-radius:6px;font-size:13px;font-family:monospace;" />
+      <button onclick="saveFB()" style="background:#0d1b3e;color:#c9a84c;border:none;border-radius:6px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;">Save</button>
+      <button onclick="testFB()" style="background:#eee;color:#333;border:none;border-radius:6px;padding:9px 16px;font-size:13px;cursor:pointer;">Test</button>
     </div>
-    <div id="pat-status" style="font-size:12px;margin-top:8px;color:#aaa;"></div>
+    <div id="fb-status" style="font-size:12px;margin-top:8px;color:#aaa;"></div>
   </div>
 
   <div class="log-card">
@@ -359,49 +362,29 @@ async function generateCert() {
 
   loadLog();
 
-  // Auto-push certs.json to GitHub
-  const pat = localStorage.getItem('bb_github_pat');
-  if (pat) {
-    document.getElementById('cert-id-display').textContent = '✓ ' + currentCertId + ' — syncing to GitHub...';
-    const ok = await pushCertsToGitHub(certs, pat);
+  // Auto-push to Firebase
+  const fbUrl = localStorage.getItem('bb_fb_url');
+  if (fbUrl) {
+    document.getElementById('cert-id-display').textContent = '✓ ' + currentCertId + ' — saving...';
+    const ok = await pushCertToFirebase(certData);
     document.getElementById('cert-id-display').textContent = ok
-      ? '✓ ' + currentCertId + ' — synced ✔'
-      : '✓ ' + currentCertId + ' — sync failed (check PAT)';
+      ? '✓ ' + currentCertId + ' — saved to Firebase ✔'
+      : '✓ ' + currentCertId + ' — Firebase save failed';
   }
 }
 
-async function pushCertsToGitHub(certs, pat) {
-  const REPO  = 'businessboxvizag/businessBOX';
-  const FILE  = 'certs.json';
-  const API   = 'https://api.github.com/repos/' + REPO + '/contents/' + FILE;
-  const content = btoa(unescape(encodeURIComponent(JSON.stringify(certs, null, 2))));
-
+async function pushCertToFirebase(certData) {
+  const dbUrl   = localStorage.getItem('bb_fb_url');
+  const dbSecret = localStorage.getItem('bb_fb_secret');
+  if (!dbUrl || !dbSecret) return false;
   try {
-    // Get current SHA (if file exists)
-    let sha = null;
-    const get = await fetch(API, { headers: { Authorization: 'Bearer ' + pat, 'X-GitHub-Api-Version': '2022-11-28' } });
-    if (get.ok) { const d = await get.json(); sha = d.sha; }
-
-    const body = { message: 'Update certs.json [auto]', content };
-    if (sha) body.sha = sha;
-
-    const put = await fetch(API, {
+    const r = await fetch(`${dbUrl}/certs/${certData.id}.json?auth=${dbSecret}`, {
       method: 'PUT',
-      headers: { Authorization: 'Bearer ' + pat, 'Content-Type': 'application/json', 'X-GitHub-Api-Version': '2022-11-28' },
-      body: JSON.stringify(body)
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(certData)
     });
-
-    if (!put.ok) {
-      const err = await put.json().catch(() => ({}));
-      document.getElementById('cert-id-display').textContent =
-        '✓ ' + currentCertId + ' — sync failed: ' + (err.message || put.status);
-      return false;
-    }
-    return true;
-  } catch(e) {
-    document.getElementById('cert-id-display').textContent = '✓ ' + currentCertId + ' — sync error: ' + e.message;
-    return false;
-  }
+    return r.ok;
+  } catch(e) { return false; }
 }
 
 async function downloadPDF() {
@@ -431,33 +414,36 @@ async function downloadPDF() {
   }
 }
 
-function savePAT() {
-  const pat = document.getElementById('gh-pat').value.trim();
-  if (!pat) return;
-  localStorage.setItem('bb_github_pat', pat);
-  document.getElementById('pat-status').innerHTML = '✅ Saved! Certs will auto-sync to GitHub from now on.';
-  document.getElementById('gh-pat').value = '';
+function saveFB() {
+  const url    = document.getElementById('fb-url').value.trim().replace(/\/$/, '');
+  const secret = document.getElementById('fb-secret').value.trim();
+  if (!url || !secret) { document.getElementById('fb-status').textContent = '⚠ Enter both fields.'; return; }
+  localStorage.setItem('bb_fb_url', url);
+  localStorage.setItem('bb_fb_secret', secret);
+  document.getElementById('fb-status').innerHTML = '✅ Saved! Certs will auto-sync to Firebase.';
+  document.getElementById('fb-secret').value = '';
 }
 
-async function testPAT() {
-  const pat = localStorage.getItem('bb_github_pat') || document.getElementById('gh-pat').value.trim();
-  if (!pat) { document.getElementById('pat-status').textContent = '⚠ Enter a PAT first.'; return; }
-  document.getElementById('pat-status').textContent = 'Testing...';
+async function testFB() {
+  const url    = localStorage.getItem('bb_fb_url');
+  const secret = localStorage.getItem('bb_fb_secret');
+  if (!url || !secret) { document.getElementById('fb-status').textContent = '⚠ Save your Firebase settings first.'; return; }
+  document.getElementById('fb-status').textContent = 'Testing...';
   try {
-    const r = await fetch('https://api.github.com/repos/businessboxvizag/businessBOX', {
-      headers: { Authorization: 'token ' + pat }
-    });
-    document.getElementById('pat-status').innerHTML = r.ok
-      ? '✅ Connected to GitHub repo successfully!'
-      : '❌ Failed — check your PAT has repo write access.';
+    const r = await fetch(`${url}/certs.json?auth=${secret}&shallow=true`);
+    document.getElementById('fb-status').innerHTML = r.ok
+      ? '✅ Connected to Firebase successfully!'
+      : '❌ Failed (status ' + r.status + ') — check URL and secret.';
   } catch(e) {
-    document.getElementById('pat-status').textContent = '❌ Network error.';
+    document.getElementById('fb-status').textContent = '❌ Network error: ' + e.message;
   }
 }
 
 function loadPATStatus() {
-  const saved = localStorage.getItem('bb_github_pat');
-  if (saved) document.getElementById('pat-status').innerHTML = '✅ GitHub PAT saved — auto-sync is active.';
+  const url    = localStorage.getItem('bb_fb_url');
+  const secret = localStorage.getItem('bb_fb_secret');
+  if (url) document.getElementById('fb-url').value = url;
+  if (url && secret) document.getElementById('fb-status').innerHTML = '✅ Firebase connected — auto-sync active.';
 }
 
 function exportCertsJson() {
