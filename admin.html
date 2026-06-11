@@ -332,7 +332,7 @@ function updatePreview() {
   document.getElementById('o-duration').innerHTML    = duration;
   document.getElementById('o-role').textContent      = role;
   document.getElementById('o-cert-id').textContent   = currentCertId || 'BB-XXXX-XXX';
-  document.getElementById('o-date').textContent      = formatDateLong(end || new Date().toISOString().slice(0,10));
+  document.getElementById('o-date').textContent      = formatDateLong(new Date().toISOString().slice(0,10));
 }
 
 async function generateCert() {
